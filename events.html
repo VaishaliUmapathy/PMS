@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mentor Calendar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        #calendar {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        #addEventForm {
+            margin: 20px 0;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Mentor Calendar</h1>
+
+<!-- Form for Adding Events -->
+<div id="addEventForm">
+    <h3>Add Event</h3>
+    <label for="eventTitle">Event Title:</label>
+    <input type="text" id="eventTitle" required><br>
+    
+    <label for="eventDate">Event Date:</label>
+    <input type="date" id="eventDate" required><br>
+    
+    <button id="addEventButton">Add Event</button>
+</div>
+
+<button id="toggleForm">Add Event</button> <!-- Button to show/hide form -->
+
+<div id='calendar'></div>
+
+<script>
+    $(document).ready(function() {
+        // Initialize the calendar
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: false,
+            events: [
+                // Pre-defined events can be added here
+            ],
+            dayRender: function(date, cell) {
+                if (date.isSame(moment(), 'day')) {
+                    cell.css("background-color", "#ffcc00"); // Highlight today's date
+                }
+            },
+            eventClick: function(event) {
+                alert('Event: ' + event.title);
+            }
+        });
+
+        // Show/hide the event form
+        $('#toggleForm').click(function() {
+            $('#addEventForm').toggle();
+        });
+
+        // Add event button click
+        $('#addEventButton').click(function() {
+            var title = $('#eventTitle').val();
+            var date = $('#eventDate').val();
+            if (title && date) {
+                // Add the event to the calendar
+                $('#calendar').fullCalendar('renderEvent', {
+                    title: title,
+                    start: date,
+                    allDay: true // Set to true for all-day events
+                }, true); // stick = true
+                // Clear the form inputs
+                $('#eventTitle').val('');
+                $('#eventDate').val('');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

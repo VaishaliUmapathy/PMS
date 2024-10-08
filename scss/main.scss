@@ -1,0 +1,75 @@
+$primary-border-color: #e0e4e8;
+$secondary-border-color: black;
+$border-color:#594f8d;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$hover-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+$transition-duration: 0.3s;
+
+.main-content {
+    padding: 20px;
+    background-color: #f9f9f9; 
+
+    .content-items {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 20px;
+        margin-left: 150px;
+        padding: 20px;
+        border: 1px solid $primary-border-color;
+        border-radius: 5px;
+        box-shadow: $box-shadow;
+        transition: box-shadow $transition-duration ease;
+
+        &:hover {
+            box-shadow: $hover-shadow;
+        }
+
+        .info {
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            margin-bottom: 20px;
+            border: 2px solid $border-color;
+            border-radius: 5px; 
+            padding: 15px; 
+            background-color: #ffffff;
+            transition: transform $transition-duration ease;
+
+            &:hover {
+                transform: scale(1.02); 
+            }
+        }
+    }
+}
+
+$colors: (
+  "text": #594f8d,
+  "bg": purple
+);
+
+.info-details {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin
+
+  h3 {
+    font-size: 3rem;
+    font-weight: 500;
+    text-align: center; // Ensure text is centered
+    margin: 0;         // Reset margin to avoid shifting
+    flex: 0 0 auto;    // Prevent flex item from stretching
+    color: map-get($colors, "text"); // Use text color from the colors map
+     
+  }
+}
+@each $key, $val in $colors{
+    .info-details h3 {
+        color: $val;
+        
+    }
+
+}
