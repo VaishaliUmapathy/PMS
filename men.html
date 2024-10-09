@@ -2,195 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentor Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .dashboard {
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            width: 300px;
-            background-color: #f0f0f0;
-            padding: 20px;
-        }
-        .sidebar h2 {
-            text-align: center;
-        }
-        .filters {
-            margin-bottom: 20px;
-        }
-        .filters label, .filters select {
-            display: block;
-            margin-bottom: 10px;
-        }
-        .team-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .team-list li {
-            margin: 10px 0;
-            cursor: pointer;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .team-list li:hover {
-            background-color: #eaeaea;
-        }
-        .content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .team-details {
-            display: none;
-        }
-        .team-details h2 {
-            margin-top: 0;
-        }
-        .team-members, .project-details {
-            margin-top: 20px;
-        }
-    </style>
+    <title>Side Navigation Bar</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
 </head>
 <body>
 
-<div class="dashboard">
-    <!-- Sidebar with filters -->
+<div class="wrapper">
     <div class="sidebar">
-        <h2>Teams</h2>
-        <div class="filters">
-            <label for="year">Select Year:</label>
-            <select id="year">
-                <option value="all">All Years</option>
-                <option value="1">1st Year</option>
-                <option value="2">2nd Year</option>
-                <option value="3">3rd Year</option>
-                <option value="4">4th Year</option>
-            </select>
-
-            <label for="semester">Select Semester:</label>
-            <select id="semester">
-                <option value="all">All Semesters</option>
-                <option value="1">Semester 1</option>
-                <option value="2">Semester 2</option>
-                <option value="3">Semester 3</option>
-                <option value="4">Semester 4</option>
-                <option value="5">Semester 5</option>
-                <option value="6">Semester 6</option>
-                <option value="7">Semester 7</option>
-                <option value="8">Semester 8</option>
-            </select>
-
-            <label for="department">Select Department:</label>
-            <select id="department">
-                <option value="all">All Departments</option>
-                <option value="CSE">CSE</option>
-                <option value="ECE">ECE</option>
-                <option value="EEE">EEE</option>
-                <option value="MECH">Mechanical</option>
-                <option value="IT">IT</option>
-                <option value="AIDS">AIDS</option>
-            </select>
-        </div>
-
-        <ul class="team-list" id="teamList">
-            <!-- Teams will be dynamically generated here -->
+        <img src="assets/img/girlprofile.png" alt="" width="100px "/>
+        <h2 class="profile-name">Menu</h2>
+        <h2 class="profile-roll">21CS053</h2>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="student_dash.html"><i class="fas fa-user"></i>Profile</a></li>
+            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="mentor.html"><i class="fas fa-project-diagram"></i>Mentors</a></li>
+            <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
+            <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
         </ul>
     </div>
 
-    <!-- Main Content Area -->
-    <div class="content">
-        <div id="teamDetails" class="team-details">
-            <h2>Team Name: <span id="teamName"></span></h2>
-            <div class="team-members">
-                <h3>Team Members:</h3>
-                <ul id="teamMembersList">
-                    <!-- Team members will be listed here -->
-                </ul>
-            </div>
-            <div class="project-details">
-                <h3>Project Details:</h3>
-                <p id="projectDescription"></p>
-            </div>
-            <div class="team-info">
-                <p><strong>Department:</strong> <span id="teamDepartment"></span></p>
-                <p><strong>Year:</strong> <span id="teamYear"></span></p>
-                <p><strong>Semester:</strong> <span id="teamSemester"></span></p>
+    <div class="main_header">
+        <div class="header">
+            <h1>PROJECT MANAGEMENT</h1>
+            <div class="header_icons">
+                <div class="search">
+                    <input type="text" placeholder="Search..." />
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <i class="fa-solid fa-bell"></i>
             </div>
         </div>
+        <br>
+        <hr>
     </div>
 </div>
 
-<script>
-// Example data (You can fetch this data from a database using PHP)
-const teams = [
-    { id: 1, name: "Team Alpha", members: ["Alice", "Bob", "Charlie"], project: "Automated Stage Setup", department: "CSE", year: 4, semester: 8 },
-    { id: 2, name: "Team Beta", members: ["Dave", "Eve", "Mallory"], project: "Smart Museum Display", department: "ECE", year: 3, semester: 6 },
-    { id: 3, name: "Team Gamma", members: ["Frank", "Grace", "Heidi"], project: "IoT Energy Saver", department: "EEE", year: 2, semester: 4 },
-    { id: 4, name: "Team Delta", members: ["Ivan", "Judy", "Oscar"], project: "Wearable Tech", department: "MECH", year: 1, semester: 2 }
-];
+<section class="main-content">
+    <div class="container">
+        <h1>Teams Under Your Mentorship</h1>
+        
+        <!-- Search Bar -->
+        <input type="text" id="search" placeholder="Search teams..." onkeyup="filterTeams()">
+        
+        <!-- Filter Options -->
+        <div class="filters">
+            <select id="departmentFilter" onchange="filterTeams()">
+                <option value="">All Departments</option>
+                <option value="CSE">CSE</option>
+                <option value="IT">IT</option>
+                <option value="ECE">ECE</option>
+            </select>
+            <select id="yearFilter" onchange="filterTeams()">
+                <option value="">All Years</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+            <select id="semesterFilter" onchange="filterTeams()">
+                <option value="">All Semesters</option>
+                <option value="5">5</option>
+                <option value="7">7</option>
+            </select>
+        </div>
 
-// Function to display teams
-function displayTeams(filteredTeams) {
-    const teamList = document.getElementById('teamList');
-    teamList.innerHTML = '';  // Clear previous list
-    filteredTeams.forEach(team => {
-        const li = document.createElement('li');
-        li.innerText = team.name;
-        li.onclick = () => displayTeamDetails(team);
-        teamList.appendChild(li);
-    });
-}
+        <div class="team-list" id="teamList">
+            <!-- Team Card Template -->
+            <div class="team-card" data-department="CSE" data-year="2024" data-semester="7">
+                <h3><a href="team_details.php?team_id=1">Team Alpha</a></h3>
+                <p><strong>Department:</strong> CSE</p>
+                <p><strong>Year:</strong> 2024</p>
+                <p><strong>Semester:</strong> 7</p>
+                <p><strong>Team Members:</strong> Alice, Bob, Charlie</p>
+                <div class="action-buttons">
+                    <button class="approve-btn">Approve Project</button>
+                    <button class="disapprove-btn">Disapprove Project</button>
+                </div>
+            </div>
 
-// Function to display team details
-function displayTeamDetails(team) {
-    document.getElementById('teamDetails').style.display = 'block';
-    document.getElementById('teamName').innerText = team.name;
-    document.getElementById('teamDepartment').innerText = team.department;
-    document.getElementById('teamYear').innerText = team.year;
-    document.getElementById('teamSemester').innerText = team.semester;
-    document.getElementById('projectDescription').innerText = team.project;
+            <div class="team-card" data-department="IT" data-year="2024" data-semester="5">
+                <h3><a href="team_details.php?team_id=2">Team Beta</a></h3>
+                <p><strong>Department:</strong> IT</p>
+                <p><strong>Year:</strong> 2024</p>
+                <p><strong>Semester:</strong> 5</p>
+                <p><strong>Team Members:</strong> Dave, Emma, Frank</p>
+                <div class="action-buttons">
+                    <button class="approve-btn">Approve Project</button>
+                    <button class="disapprove-btn">Disapprove Project</button>
+                </div>
+            </div>
+            
+            <!-- Add more team cards here -->
+        </div>
 
-    // List team members
-    const teamMembersList = document.getElementById('teamMembersList');
-    teamMembersList.innerHTML = '';
-    team.members.forEach(member => {
-        const li = document.createElement('li');
-        li.innerText = member;
-        teamMembersList.appendChild(li);
-    });
-}
+        <!-- Pagination Controls -->
+        <div class="pagination">
+            <button class="prev-page" onclick="changePage(-1)">Previous</button>
+            <span id="page-info">Page 1 of X</span>
+            <button class="next-page" onclick="changePage(1)">Next</button>
+        </div>
+    </div>
 
-// Function to filter teams
-function filterTeams() {
-    const selectedYear = document.getElementById('year').value;
-    const selectedSemester = document.getElementById('semester').value;
-    const selectedDepartment = document.getElementById('department').value;
+    <script>
+        let currentPage = 1;
+        const teamsPerPage = 5; // Adjust as needed
+        const teamCards = document.querySelectorAll('.team-card');
+        
+        function filterTeams() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const department = document.getElementById('departmentFilter').value;
+            const year = document.getElementById('yearFilter').value;
+            const semester = document.getElementById('semesterFilter').value;
 
-    const filteredTeams = teams.filter(team => {
-        return (selectedYear === 'all' || team.year == selectedYear) &&
-               (selectedSemester === 'all' || team.semester == selectedSemester) &&
-               (selectedDepartment === 'all' || team.department === selectedDepartment);
-    });
+            teamCards.forEach((card) => {
+                const teamName = card.querySelector('h3 a').textContent.toLowerCase();
+                const teamDepartment = card.dataset.department;
+                const teamYear = card.dataset.year;
+                const teamSemester = card.dataset.semester;
 
-    displayTeams(filteredTeams);
-}
+                if (
+                    (teamName.includes(searchValue) || searchValue === '') &&
+                    (department === '' || teamDepartment === department) &&
+                    (year === '' || teamYear === year) &&
+                    (semester === '' || teamSemester === semester)
+                ) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
 
-// Event listeners for filtering
-document.getElementById('year').addEventListener('change', filterTeams);
-document.getElementById('semester').addEventListener('change', filterTeams);
-document.getElementById('department').addEventListener('change', filterTeams);
+            updatePagination();
+        }
 
-// Initialize the dashboard
-displayTeams(teams);  // Show all teams initially
-</script>
+        function updatePagination() {
+            const visibleCards = Array.from(teamCards).filter(card => card.style.display !== 'none');
+            const totalPages = Math.ceil(visibleCards.length / teamsPerPage);
+            const startIndex = (currentPage - 1) * teamsPerPage;
+            const endIndex = startIndex + teamsPerPage;
 
+            visibleCards.forEach((card, index) => {
+                card.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
+            });
+
+            document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+            document.querySelector('.prev-page').disabled = currentPage === 1;
+            document.querySelector('.next-page').disabled = currentPage === totalPages;
+        }
+
+        function changePage(direction) {
+            const totalCards = Array.from(teamCards).filter(card => card.style.display !== 'none').length;
+            const totalPages = Math.ceil(totalCards / teamsPerPage);
+
+            currentPage += direction;
+
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            updatePagination();
+        }
+
+        // Initial setup
+        filterTeams();
+    </script>
+    
+    <style>
+        /* Add your styles here (same as before with additional styles for pagination) */
+        .filters {
+            margin: 20px 0;
+        }
+        select, input {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 10px 15px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</section>
+
+<script src=""></script>
 </body>
 </html>
