@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 300px;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .sidebar h2 {
+            text-align: center;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        .filters label, .filters select {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .team-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .team-list li {
+            margin: 10px 0;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .team-list li:hover {
+            background-color: #eaeaea;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .team-details {
+            display: none;
+        }
+        .team-details h2 {
+            margin-top: 0;
+        }
+        .team-members, .project-details {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <!-- Sidebar with filters -->
+    <div class="sidebar">
+        <h2>Teams</h2>
+        <div class="filters">
+            <label for="year">Select Year:</label>
+            <select id="year">
+                <option value="all">All Years</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+
+            <label for="semester">Select Semester:</label>
+            <select id="semester">
+                <option value="all">All Semesters</option>
+                <option value="1">Semester 1</option>
+                <option value="2">Semester 2</option>
+                <option value="3">Semester 3</option>
+                <option value="4">Semester 4</option>
+                <option value="5">Semester 5</option>
+                <option value="6">Semester 6</option>
+                <option value="7">Semester 7</option>
+                <option value="8">Semester 8</option>
+            </select>
+
+            <label for="department">Select Department:</label>
+            <select id="department">
+                <option value="all">All Departments</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="EEE">EEE</option>
+                <option value="MECH">Mechanical</option>
+                <option value="IT">IT</option>
+                <option value="AIDS">AIDS</option>
+            </select>
+        </div>
+
+        <ul class="team-list" id="teamList">
+            <!-- Teams will be dynamically generated here -->
+        </ul>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <div id="teamDetails" class="team-details">
+            <h2>Team Name: <span id="teamName"></span></h2>
+            <div class="team-members">
+                <h3>Team Members:</h3>
+                <ul id="teamMembersList">
+                    <!-- Team members will be listed here -->
+                </ul>
+            </div>
+            <div class="project-details">
+                <h3>Project Details:</h3>
+                <p id="projectDescription"></p>
+            </div>
+            <div class="team-info">
+                <p><strong>Department:</strong> <span id="teamDepartment"></span></p>
+                <p><strong>Year:</strong> <span id="teamYear"></span></p>
+                <p><strong>Semester:</strong> <span id="teamSemester"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Example data (You can fetch this data from a database using PHP)
+const teams = [
+    { id: 1, name: "Team Alpha", members: ["Alice", "Bob", "Charlie"], project: "Automated Stage Setup", department: "CSE", year: 4, semester: 8 },
+    { id: 2, name: "Team Beta", members: ["Dave", "Eve", "Mallory"], project: "Smart Museum Display", department: "ECE", year: 3, semester: 6 },
+    { id: 3, name: "Team Gamma", members: ["Frank", "Grace", "Heidi"], project: "IoT Energy Saver", department: "EEE", year: 2, semester: 4 },
+    { id: 4, name: "Team Delta", members: ["Ivan", "Judy", "Oscar"], project: "Wearable Tech", department: "MECH", year: 1, semester: 2 }
+];
+
+// Function to display teams
+function displayTeams(filteredTeams) {
+    const teamList = document.getElementById('teamList');
+    teamList.innerHTML = '';  // Clear previous list
+    filteredTeams.forEach(team => {
+        const li = document.createElement('li');
+        li.innerText = team.name;
+        li.onclick = () => displayTeamDetails(team);
+        teamList.appendChild(li);
+    });
+}
+
+// Function to display team details
+function displayTeamDetails(team) {
+    document.getElementById('teamDetails').style.display = 'block';
+    document.getElementById('teamName').innerText = team.name;
+    document.getElementById('teamDepartment').innerText = team.department;
+    document.getElementById('teamYear').innerText = team.year;
+    document.getElementById('teamSemester').innerText = team.semester;
+    document.getElementById('projectDescription').innerText = team.project;
+
+    // List team members
+    const teamMembersList = document.getElementById('teamMembersList');
+    teamMembersList.innerHTML = '';
+    team.members.forEach(member => {
+        const li = document.createElement('li');
+        li.innerText = member;
+        teamMembersList.appendChild(li);
+    });
+}
+
+// Function to filter teams
+function filterTeams() {
+    const selectedYear = document.getElementById('year').value;
+    const selectedSemester = document.getElementById('semester').value;
+    const selectedDepartment = document.getElementById('department').value;
+
+    const filteredTeams = teams.filter(team => {
+        return (selectedYear === 'all' || team.year == selectedYear) &&
+               (selectedSemester === 'all' || team.semester == selectedSemester) &&
+               (selectedDepartment === 'all' || team.department === selectedDepartment);
+    });
+
+    displayTeams(filteredTeams);
+}
+
+// Event listeners for filtering
+document.getElementById('year').addEventListener('change', filterTeams);
+document.getElementById('semester').addEventListener('change', filterTeams);
+document.getElementById('department').addEventListener('change', filterTeams);
+
+// Initialize the dashboard
+displayTeams(teams);  // Show all teams initially
+</script>
+
+</body>
+</html>
