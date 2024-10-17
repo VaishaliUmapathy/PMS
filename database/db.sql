@@ -1,5 +1,6 @@
 CREATE DATABASE teams_management
 Use teams_management 
+    
 CREATE TABLE teams (
     id INT AUTO_INCREMENT PRIMARY KEY,
     team_name VARCHAR(255) NOT NULL,
@@ -17,13 +18,4 @@ CREATE TABLE team_members (
     member_email VARCHAR(255) NOT NULL,
     member_phone VARCHAR(15) NOT NULL,
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE
-);
-
-CREATE TABLE submissions (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    media VARCHAR(255),
-    file VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
