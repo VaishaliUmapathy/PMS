@@ -21,7 +21,7 @@
             <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
             <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
-            <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
         </ul>
         
     </div>

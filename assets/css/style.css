@@ -10,7 +10,11 @@
   body {
     background-color: #f3f5f9;
   }
-  
+  .header>h1{
+    text-transform: uppercase;
+    
+
+  }
   .wrapper {
     display: flex;
     position: relative;

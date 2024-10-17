@@ -55,5 +55,7 @@
 .info-details h3 {
   color: purple;
 }
-
+.main_header{
+  position:fixed;
+}
 /*# sourceMappingURL=styles.css.map */

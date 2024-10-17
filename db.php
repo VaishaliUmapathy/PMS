@@ -2,7 +2,7 @@
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$dbname = 'pms';
+$dbname = 'project_management_db';
 
 // Create connection
 $conn = new mysqli($host, $user, $password, $dbname);
