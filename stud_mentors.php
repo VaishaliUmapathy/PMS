@@ -2,27 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Side Navigation Bar</title>
+    <title>Student Mentors</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
 </head>
+<style>
+    .mentor-section>h2{
+        margin-left: 250px;
+    }
+</style>
 <body>
 
 <div class="wrapper">
     <div class="sidebar">
         <img src="assets/img/girlprofile.png" alt="" width="100px "/>
-        <h2 class="profile-name">Menu</h2>
+        <h2 class="profile-name">Vaishali</h2>
         <h2 class="profile-roll">21CS053</h2>
         <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="student_dash.html"><i class="fas fa-user"></i>Profile</a></li>
+            <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
-            <li><a href="mentor.html"><i class="fas fa-project-diagram"></i>Mentors</a></li>
+            <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
             <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
-            <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
         </ul>
         
     </div>
@@ -76,34 +80,11 @@
     </section>
 </section>
 
-<section class="project-section">
-    
+<section class="mentor-section">
+    <h2>Mentor Name:Meha</h2>
+    <h2>Department:CSE</h2>
 
 </section>
-<section id="calendar">
-    <h2>Calendar<a href="cal.html">view</a></h2>
-    <div class="calendar-container">
-        <div class="calendar-header">
-            <button id="prevYear" onclick="changeYear(-1)">&#10094;&#10094;</button>
-            <button id="prevMonth" onclick="changeMonth(-1)">&#10094;</button>
-            <h3 id="currentMonthYear"></h3>
-            <button id="nextMonth" onclick="changeMonth(1)">&#10095;</button>
-            <button id="nextYear" onclick="changeYear(1)">&#10095;&#10095;</button>
-        </div>
-        <div class="calendar-days">
-            <div class="day">Sun</div>
-            <div class="day">Mon</div>
-            <div class="day">Tue</div>
-            <div class="day">Wed</div>
-            <div class="day">Thu</div>
-            <div class="day">Fri</div>
-            <div class="day">Sat</div>
-        </div>
-        <div class="calendar-dates" id="calendarDates"></div>
-    </div>
-</section>
 
-
-<script src="assets/js/calendar.js"></script>
 </body>
 </html>

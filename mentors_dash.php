@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,17 +143,17 @@
 
 <div class="wrapper">
     <div class="sidebar">
-        <img src="assets/img/girlprofile.png" alt="" width="100px "/>
-        <h2 class="profile-name">Menu</h2>
-        <h2 class="profile-roll">21CS053</h2>
+        <img src="assets/img/girlprofile.png" alt="" width="100px"/>
+        <h2 class="profile-name"><?php echo isset($mentor_data['name']) ? htmlspecialchars($mentor_data['name']) : ''; ?></h2>
+        <h2 class="profile-roll"><?php echo isset($mentor_data['department']) ? htmlspecialchars($mentor_data['department']) : ''; ?></h2>
         <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="student_dash.html"><i class="fas fa-user"></i>Profile</a></li>
+            <li><a href="mentors_dash.php"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="mentor_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
-            <li><a href="mentor.html"><i class="fas fa-project-diagram"></i>Mentors</a></li>
             <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
-            <li><a href="#"><i class="fas fa-map-pin"></i>Map</a></li>
+            <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
+           
         </ul>
     </div>
 
@@ -170,20 +172,28 @@
         <hr>
     </div>
 </div>
+
 <section class="main-content">
     <div class="mentor-details">
         <h2>Mentor Details</h2>
-        <div class="mentor-info">
-            <p><strong>Name:</strong> John Doe</p>
-            <p><strong>Degree:</strong> Computer Science</p>
-            <p><strong>Department:</strong> Computer Science</p>
-            <p><strong>Domain:</strong> Cloud Computing, Machine Learning</p>
-            <p><strong>Phone Number:</strong> +91 9876543210</p>
-            <p><strong>Email:</strong> johndoe@example.com</p>
-        </div>
+        <?php
+        // Display mentor details
+        if (!empty($mentor_data)) {
+            echo '<h3>Mentor ID: ' . htmlspecialchars($mentor_data['mentor_id']) . '</h3>';
+            echo '<p><strong>Name:</strong> ' . htmlspecialchars($mentor_data['name']) . '</p>';
+            echo '<p><strong>Degree:</strong> ' . htmlspecialchars($mentor_data['degree']) . '</p>';
+            echo '<p><strong>Department:</strong> ' . htmlspecialchars($mentor_data['department']) . '</p>';
+            echo '<p><strong>Domain:</strong> ' . htmlspecialchars($mentor_data['domain']) . '</p>';
+            echo '<p><strong>Phone Number:</strong> ' . htmlspecialchars($mentor_data['phone_number']) . '</p>';
+            echo '<p><strong>Email:</strong> ' . htmlspecialchars($mentor_data['email']) . '</p>';
+        } else {
+            echo "<p>No mentor data available.</p>";
+        }
+        ?>
     </div>
+    
     <section id="statistics">
-        <h2>Mentor Dashborad</h2>
+        <h2>Mentor Dashboard</h2>
         <div class="content-items">
             <div class="info">
                 <a href="cal.html">
@@ -210,8 +220,8 @@
                 </a>
             </div>
             <div class="info">
-                <a href="viewporjects.html">
-                    <h2 class="info-heading">ALL  Projects</h2>
+                <a href="viewprojects.html">
+                    <h2 class="info-heading">ALL Projects</h2>
                     <div class="info-details">
                         <h3 class="info-numbers">1</h3> 
                     </div>
@@ -221,9 +231,8 @@
     </section>
 </section>
 
-
 <!-- Modal for event details -->
-
+<!-- Add modal HTML if needed -->
 
 <script>
     $(document).ready(function() {
