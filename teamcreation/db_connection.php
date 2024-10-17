@@ -2,7 +2,7 @@
 $servername = "localhost";  // Your database server
 $username = "root";  // Default username for XAMPP MySQL
 $password = "";  // Default password is empty for XAMPP
-$dbname = "teams_management";  // Make sure this database exists
+$dbname = "project_management_db.php";  // Make sure this database exists
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
