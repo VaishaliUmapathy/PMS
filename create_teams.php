@@ -394,11 +394,11 @@ $conn->close();
         <h2 class="profile-name">Vaishali</h2>
         <h2 class="profile-roll">21CS053</h2>
         <ul>
-            <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
+        <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
-            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="stud_projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
-            <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
+            <li><a href="stud_submission.php"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
         </ul>
         

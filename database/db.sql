@@ -19,3 +19,15 @@ CREATE TABLE team_members (
     member_phone VARCHAR(15) NOT NULL,
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE
 );
+
+CREATE TABLE projects_submissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    leader VARCHAR(255) NOT NULL,
+    members TEXT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    ppt VARCHAR(255) NOT NULL,
+    abstract TEXT NOT NULL,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

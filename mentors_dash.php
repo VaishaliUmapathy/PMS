@@ -149,9 +149,9 @@
         <ul>
             <li><a href="mentors_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="mentor_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
-            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
-            <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
-            <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="sub.php"><i class="fas fa-blog"></i>Submission</a></li>
+            <li><a href="viewteams.php"><i class="fas fa-address-book"></i>Teams</a></li>
             <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
            
         </ul>

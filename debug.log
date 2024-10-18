@@ -1,0 +1,4 @@
+<?php if($_SESSION['login_type'] == 1 ): ?>-->sub.php
+<?php else: ?>
+      	<input type="hidden" name="manager_id" value="<?php echo $_SESSION['login_id'] ?>">
+      <?php endif; ?>
