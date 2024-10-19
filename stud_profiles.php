@@ -61,7 +61,6 @@ $conn->close();
     <!-- Add your CSS and other head elements -->
 </head>
 <body>
-<<<<<<< HEAD
 
 <div class="wrapper">
     <div class="sidebar">
@@ -187,22 +186,5 @@ $conn->close();
     </div>
 </section>
 
-=======
-    <h1>Student Profile</h1>
-    
-    <?php if (isset($student)): ?>
-        <p>Name: <?php echo htmlspecialchars($student['name']); ?></p>
-        <p>Roll Number: <?php echo htmlspecialchars($student['roll_number']); ?></p>
-        <p>University Reg No: <?php echo htmlspecialchars($student['univ_reg_no']); ?></p>
-        <p>CGPA: <?php echo htmlspecialchars($student['cgpa']); ?></p>
-        <p>Degree: <?php echo htmlspecialchars($student['degree']); ?></p>
-        <p>Course: <?php echo htmlspecialchars($student['course']); ?></p>
-        <p>Batch Year: <?php echo htmlspecialchars($student['batch_year']); ?></p>
-        <p>Email: <?php echo htmlspecialchars($student['email']); ?></p>
-        <p>Phone Number: <?php echo htmlspecialchars($student['phno']); ?></p>
-    <?php else: ?>
-        <p style='color: red;'><?php echo isset($error_message) ? $error_message : ""; ?></p>
-    <?php endif; ?>
->>>>>>> 184fa70 (profiles pages were updated)
 </body>
 </html>
