@@ -3,7 +3,7 @@
 $servername = "localhost"; 
 $username = "root"; 
 $password = ""; 
-$dbname = "teams_management"; 
+$dbname = "project_management_db"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -81,12 +81,12 @@ $conn->close();
                 <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Students</a>
                 <div class="dropdown-container">
                     <a href="add_stud.php"><i class="fas fa-user-plus"></i> Add Students</a>
-                    <a href="list_stud .php"><i class="fas fa-list"></i> List Students</a>
+                    <a href="list_stud.php"><i class="fas fa-list"></i> List Students</a>
                 </div>
             </li>
             <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
-            <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="viewteams.php"><i class="fas fa-address-book"></i>Teams</a></li>
             <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
         </ul>
     </div>

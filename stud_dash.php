@@ -166,7 +166,6 @@ $dashboard_data = isset($_SESSION['dashboard_data']) ? $_SESSION['dashboard_data
             </div>
         </div>
     </section>
-<<<<<<< HEAD
 
     <section id="calendar">
         <h2>Calendar <a href="cal.html">view</a></h2>
@@ -192,40 +191,6 @@ $dashboard_data = isset($_SESSION['dashboard_data']) ? $_SESSION['dashboard_data
     </section>
 </section>
 
-=======
-    
-</section>
-
-
-<section id="calendar">
-    <h2>Calendar<a href="cal.html">        view</a></h2>
-    <div class="calendar-container">
-        <div class="calendar-header">
-            <button id="prevYear" onclick="changeYear(-1)">&#10094;&#10094;</button>
-            <button id="prevMonth" onclick="changeMonth(-1)">&#10094;</button>
-            <h3 id="currentMonthYear"></h3>
-            <button id="nextMonth" onclick="changeMonth(1)">&#10095;</button>
-            <button id="nextYear" onclick="changeYear(1)">&#10095;&#10095;</button>
-        </div>
-        <div class="calendar-days">
-            <div class="day">Sun</div>
-            <div class="day">Mon</div>
-            <div class="day">Tue</div>
-            <div class="day">Wed</div>
-            <div class="day">Thu</div>
-            <div class="day">Fri</div>
-            <div class="day">Sat</div>
-        </div>
-        <div class="calendar-dates" id="calendarDates"></div>
-    </div>
-    
-</section>
-
-<section class="project-section">
-            
-</section>
-
->>>>>>> 8349245 (the submission and editor page is created)
 <script src="assets/js/calendar.js"></script>
 </body>
 </html>

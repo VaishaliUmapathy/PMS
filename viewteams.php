@@ -2,22 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management - Teams</title>
+<meta charset="UTF-8">
+    <title>View Teams</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="mentors.css">
     <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
-    <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
     <style>
         /* General layout for the page */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
         body {
             font-family: 'Josefin Sans', sans-serif;
@@ -27,15 +24,10 @@
         }
 
         /* Sidebar styling */
-        .sidebar {
-            width: 250px;
-            background-color: #343a40;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            padding: 20px;
-            color: #fff;
+        .wrapper {
+            display: flex;
         }
+
 
         .sidebar img {
             border-radius: 50%;
@@ -68,7 +60,12 @@
         .sidebar ul li a i {
             margin-right: 10px;
         }
-
+        
+        .main_header {
+            flex: 1; /* Take remaining space */
+            padding: 20px;
+            background: white; /* Header background */
+        }
         /* Main content layout */
         .main-content {
             padding: 20px;
@@ -176,22 +173,44 @@
 
     <!-- Sidebar section -->
     <div class="sidebar">
-        <img src="assets/img/girlprofile.png" alt="Profile" width="100px">
-        <h2 class="profile-name">Anitha</h2>
-        <h2 class="profile-roll">CSE</h2>
+        <img src="assets/img/girlprofile.png" alt="" width="100px" />
+        <h2 class="profile-name"><?php echo isset($mentor_data['name']) ? htmlspecialchars($mentor_data['name']) : ''; ?></h2>
+        <h2 class="profile-roll"><?php echo isset($mentor_data['department']) ? htmlspecialchars($mentor_data['department']) : ''; ?></h2>
         <ul>
             <li><a href="mentors_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="mentor_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
-            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="sub.php"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="viewteams.php"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Students</a>
+                <div class="dropdown-container">
+                    <a href="add_stud.php"><i class="fas fa-user-plus"></i> Add Students</a>
+                    <a href="list_stud.php"><i class="fas fa-list"></i> List Students</a>
+                </div>
+            </li>
+            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
+            <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
             <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
         </ul>
     </div>
-
+    <div class="main_header">
+        <div class="header">
+            <h1>Teams Under Your Mentorship</h1>
+            <div class="header_icons">
+                <div class="search">
+                    <input type="text" placeholder="Search..." />
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <i class="fa-solid fa-bell"></i>
+            </div>
+        </div>
+        <br>
+        <hr>
+    </div>
     <!-- Main content section -->
     <div class="main-content">
-        <h2>Teams Under Your Mentorship</h2>
 
         <!-- Filter and search section -->
         <div class="filter-options">

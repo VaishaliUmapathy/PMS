@@ -398,7 +398,7 @@ $conn->close();
         <h2 class="profile-name">Vaishali</h2>
         <h2 class="profile-roll">21CS053</h2>
         <ul>
-        <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="stud_projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
@@ -547,7 +547,7 @@ $conn->close();
     </div>  
 </div>  
 
-<script src="script.js"></script>
+<script src="teams.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 

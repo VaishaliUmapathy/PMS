@@ -1,9 +1,43 @@
 
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "project_management_db";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if roll_number is set in the query string
+if (isset($_GET['roll_number'])) {
+    $roll_number = $_GET['roll_number'];
+
+    // Fetch student details based on roll number
+    $sql = "SELECT name, roll_number, degree, course, batch_year, email, phno FROM student_details WHERE roll_number = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $roll_number); // Assuming roll_number is a string
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Fetch the student details
+    if ($result->num_rows > 0) {
+        $student = $result->fetch_assoc();
+    } else {
+        $student = null; // No student found
+    }
+} else {
+    $student = null; // No roll_number provided
+}
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>Mentors</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -15,9 +49,6 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
     <style>
-        .main-content{
-            margin-top:100px;
-        }
         body {
             font-family: 'Josefin Sans', sans-serif;
             margin: 0;
@@ -142,7 +173,8 @@
         .mentor-details h2 {
             margin-bottom: 10px;
             color: #4e64bb;
-        }
+}
+
     </style>
 </head>
 <body>
@@ -186,90 +218,35 @@
         </div>
         <br>
         <hr>
-        
     </div>
 </div>
-<section class="content_section_stud">
+
+<section class="main-content">
+    <section id="statistics">
+    <div class="wrapper">
+    <h1>Student Profile</h1>
     
-    
-    
-    <div class="additional-details">
-        <form action="#" method="post">
-            <div class="form-group">
-                <label for="position">Position</label>
-                <input type="text" id="position" name="position" value="Student" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="join-date">Joining Date</label>
-                <input type="date" id="join-date" name="join-date" value="2021-12-12" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="cgpa">CGPA</label>
-                <input type="number" step="0.01" id="cgpa" name="cgpa" value="9.00" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="degree">Degree</label>
-                <input type="text" id="degree" name="degree" value="Bachelor of Technology" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="course">Course</label>
-                <input type="text" id="course" name="course" value="Computer Science Engineering" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="year">Year</label>
-                <input type="text" id="year" name="year" value="4th Year" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="email">Email Id</label>
-                <input type="email" id="email" name="email" value="vaishali@gmail.com" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="dob">Date of Birth</label>
-                <input type="date" id="dob" name="dob" value="2003-12-12" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="phno">Phone Number</label>
-                <input type="tel" id="phno" name="phno" value="234567890" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" id="address" name="address" value="asdfghjkl" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-                
-            </div>
-    
-            <div class="form-group">
-                <button type="button">Edit</button>
-                <button type="submit">Submit</button>
-            </div>
-        </form>
-    </div>
+    <?php if ($student): ?>
+        <div class="profile-container">
+            <h2><?php echo htmlspecialchars($student['name']); ?></h2>
+            <p><strong>Roll Number:</strong> <?php echo htmlspecialchars($student['roll_number']); ?></p>
+            <p><strong>Degree:</strong> <?php echo htmlspecialchars($student['degree']); ?></p>
+            <p><strong>Course:</strong> <?php echo htmlspecialchars($student['course']); ?></p>
+            <p><strong>Batch Year:</strong> <?php echo htmlspecialchars($student['batch_year']); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($student['email']); ?></p>
+            <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($student['phno']); ?></p>
+        </div>
+    <?php else: ?>
+        <p>No student found for the provided roll number.</p>
+    <?php endif; ?>
+</div>
+       
+    </section>
 </section>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
-        
-        dropdownBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                const dropdownContent = this.nextElementSibling;
-                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-            });
-        });
-    });
-</script>
+
+<!-- Modal for event details -->
+<!-- Add modal HTML if needed -->
+
 
 </body>
 </html>

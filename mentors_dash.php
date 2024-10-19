@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>mentors</title>
+    <title>Mentors</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="mentors.css">
@@ -14,8 +14,6 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
-<<<<<<< HEAD
-=======
     <style>
         body {
             font-family: 'Josefin Sans', sans-serif;
@@ -27,7 +25,7 @@
             display: flex;
         }
         .sidebar {
-            background: #333; /* Sidebar color */
+            background: #4b4276; /* Sidebar color */
             color: white;
             width: 200px;
             padding: 20px;
@@ -144,7 +142,6 @@
 }
 
     </style>
->>>>>>> 8349245 (the submission and editor page is created)
 </head>
 <body>
 
@@ -156,11 +153,9 @@
         <ul>
             <li><a href="mentors_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="mentor_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
-<<<<<<< HEAD
             <li><a href="projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="sub.php"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="viewteams.php"><i class="fas fa-address-book"></i>Teams</a></li>
-=======
             <li class="dropdown">
                 <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Students</a>
                 <div class="dropdown-container">
@@ -171,7 +166,6 @@
             <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
->>>>>>> 184fa70 (profiles pages were updated)
             <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
         </ul>
     </div>

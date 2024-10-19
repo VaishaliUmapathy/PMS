@@ -2,3 +2,5 @@
 <?php else: ?>
       	<input type="hidden" name="manager_id" value="<?php echo $_SESSION['login_id'] ?>">
       <?php endif; ?>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
