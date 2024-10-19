@@ -4,102 +4,115 @@
     <meta charset="UTF-8">
     <title>Student Dashboard</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin-left: 250px;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            margin-top: 30px;
-            display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-between; 
-        }
-        .form-group-stud {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-            width: calc(50% - 10px);
-            padding: 0 5px; 
-        }
-        .full-width {
-            width: 100%;
-        }
-        label {
-            margin-bottom: 5px;
-            color: #555;
-            text-align: left;
-            font-weight: bold;
-        }
-        input[type="text"], input[type="date"], input[type="file"], textarea {
-           padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 100%;
-            box-sizing: border-box; 
-        }
-        textarea {
-            height: 100px;
-        }
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 20px;
-            width: 100%;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        /* Responsive design for smaller screens */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-            }
-            .form-group {
-                width: 100%;
-            }
-            .full-width {
-                width: 100%;
-            }
-        }
-        button{
-            padding:5px;
-            border-radius: 7px;
-            background-color: #333;
-            color:#fff;
-        }
-       
         .main-content{
             margin-top:100px;
+            margin-left: 100px;
         }
-   
-    </style>
+        .abstract{
+            margin-top: 100px; /* Top margin */
+            margin-left: 250px; /* Left margin */
+            width: calc(100% - 300px); /* Full width minus sidebar width */
+            max-width: 1000px; /* Max width for larger screens */
+            margin-bottom: 30px; /* Space at the bottom */
+            padding: 20px; /* Padding inside the abstract section */
+            background-color: white; /* Background for contrast */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            border-radius: 8px; /* Rounded corners */
+            position: relative; /* Ensure it can contain floated elements */
+            z-index: 1; /* Bring this element to the front */
+        }
+        .abstract h2{
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+        }
+        .download-btn {
+            background-color:#4b4276; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            margin-left: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .button-container{
 
-    <!-- 
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .download-btn:hover {
+            background-color: #0056b3; 
+            transform: translateY(-2px);
+        }
+        .download-btn:active {
+            transform: translateY(1px);
+        }
+        .form-group-stud {
+            position: relative; /* Ensure proper positioning */
+            z-index: 2; /* Bring this element to the front */
+            width: 100%; /* Full width for the form group */
+            margin-top: 20px; /* Margin above textarea */
+        }
+        textarea {
+            width: 100%; /* Full width of the parent */
+            height: 200px; /* Fixed height for the textarea */
+            border: 1px solid #ccc; /* Border style */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Padding inside textarea */
+            resize: vertical; /* Allow vertical resizing only */
+            font-family: 'Josefin Sans', sans-serif; /* Match font */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Inner shadow for effect */
+        }
+        @media (max-width: 768px) {
+            .abstract {
+                width: 90%; /* Adjust for smaller screens */
+                margin-left: 5%;
+                margin-top: 20px; /* Reduce top margin */
+                margin-bottom: 20px; /* Reduce bottom margin */
+            }
+            .download-btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+            .main-content {
+                margin-top: 20px; /* Reduce top margin */
+                margin-left: 5%; /* Center it on smaller screens */
+            }
+        }
+        
+        @media (max-width: 576px) 
+        {
+            .sidebar {
+                width: 100%; /* Full width for mobile */
+                padding: 10px; /* Reduced padding */
+            }
+
+            .main_header {
+                padding: 10px; /* Reduced padding */
+            }
+
+            .abstract {
+                
+                margin: 20px; /* Margin around the abstract */
+                width: auto; /* Auto width for mobile */
+                margin-top: 80px; /* Adjust top margin */
+            }
+
+            .download-btn {
+                width: 100%; /* Full width buttons */
+                margin: 5px 0; /* Spacing between buttons */
+            }
+        }
+        
+    </style>
     <script src="https://cdn.tiny.cloud/1/ikqidsva7e09d7ojpfnaadk20er7mkf9ra3u324d63pp5cno/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
       tinymce.init({
@@ -152,16 +165,13 @@
             downloadLink.click();
             document.body.removeChild(downloadLink);
         }
-        
-
-
-    </script>TinyMCE Integration -->
+        </script>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar">
-        <img src="assets/img/girlprofile.png" alt="" width="100px"/>
+        <img src="assets/img/girlprofile.png" alt="" width="100px "/>
         <h2 class="profile-name">Vaishali</h2>
         <h2 class="profile-roll">21CS053</h2>
         <ul>
@@ -173,11 +183,12 @@
             <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
             <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
         </ul>
+        
     </div>
 
     <div class="main_header">
         <div class="header">
-            <h1>SUBMISSION PAGE</h1>
+            <h1>PROJECT MANAGEMENT</h1>
             <div class="header_icons">
                 <div class="search">
                     <input type="text" placeholder="Search..." />
@@ -188,52 +199,23 @@
         </div>
         <br>
         <hr>
+        
     </div>
 </div>
-<section class="main-content">
-<div class="container">
-        <form action="stud_submit.php" method="POST" enctype="multipart/form-data">
-            <div class="form-group-stud">
-                <label for="title">Project Title:</label>
-                <input type="text" id="title" name="title" required>
-            </div>
-            
-            <div class="form-group-stud">
-                <label for="leader">Project Leader:</label>
-                <input type="text" id="leader" name="leader" required>
-            </div>
-            <div class="form-group-stud">
-                <label for="members">Project Members </label>
-                <input type="text" id="members" name="members" required>
-            </div>
-            <div class="form-group-stud">
-                <label for="mentor">Project Mentor </label>
-                <input type="text" id="mentor" name="mentor" required>
-            </div>
-            <div class="form-group-stud">
-                <label for="start_date">Start Date:</label>
-                <input type="date" id="start_date" name="start_date" required>
-            </div>
-            <div class="form-group-stud">
-                <label for="end_date">End Date:</label>
-                <input type="date" id="end_date" name="end_date" required>
-            </div>
-            <!--<div class="form-group-stud full-width">
-                <label for="abstract">Project Abstract:</label>
+
+
+<section class="abstract">
+    <h2>ABSTRACT EDITOR</h2>
+            <div class="form-group-stud full-width">
+                <!--<label for="abstract">Project Abstract:</label>-->
                 <textarea id="abstract" name="abstract" required></textarea>
-            </div>-->
-            <div class="form-group-stud">
-                <label for="ppt">Upload PPT:</label>
-                <input type="file" id="ppt" name="ppt" accept=".ppt, .pptx" required>
             </div>
-            <!--<button onclick="downloadAbstract()">Download Abstract as TXT</button>  
-            <button onclick="downloadAsPDF()">Download Abstract as PDF</button> 
-            <button onclick="downloadAsDOCX()">Download Abstract as DOCX</button> PDF download button -->
-            
-            <input type="submit" value="Submit">
-        </form>
-       
-    </div>
 </section>
+<div class="button-container" style="text-align: center; ">
+    <button class="download-btn" onclick="downloadAbstract()">Download Abstract as TXT</button>  
+    <button class="download-btn" onclick="downloadAsPDF()">Download Abstract as PDF</button> 
+    <button class="download-btn" onclick="downloadAsDOCX()">Download Abstract as DOCX</button>
+</div>
+
 </body>
 </html>

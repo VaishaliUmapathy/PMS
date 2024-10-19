@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="assets/css/projects.css">
     <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
-    
+    <style>
+        .main-content{
+            margin-top:100px;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>

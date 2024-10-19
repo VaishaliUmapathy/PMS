@@ -57,8 +57,66 @@ $conn->close();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <title>Student Profile</title>
     <!-- Add your CSS and other head elements -->
+=======
+    <title>Student Profiles</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
+    <style>
+        .content_section_stud {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+        .pro-academic {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid black;
+            margin-left: 20px;
+            margin-top: 100px;
+            padding: 20px;
+        }
+        .section1, .section2 {
+            border: 2px solid black;
+            width: 400px;
+            height: 400px;
+            margin: 10px;
+            width: 100%;
+            margin-top: 50px;
+        }
+        .section1>h2{
+            text-align: center;
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .course-insights>h3{
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .sem-mrk {
+            display: flex;               /* Set as a flex container */
+            flex-wrap: wrap;           /* Allow items to wrap */
+            justify-content: flex-start; /* Align items to the start */
+        }
+        .sem1, .sem2, .sem3 {
+            border: 1px solid black;    /* Optional: Add a border for better visibility */
+            padding: 10px;              /* Add some padding */
+            margin: 5px;                /* Add some margin */
+            flex: 1 1 30%;              /* Allow them to grow and shrink, with a base width of 30% */
+            text-align: center;         /* Center text */
+        }
+        
+        .main-content{
+           
+        }
+   
+    </style>
+>>>>>>> 8349245 (the submission and editor page is created)
 </head>
 <body>
 <<<<<<< HEAD
@@ -75,6 +133,7 @@ $conn->close();
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
             <li><a href="stud_submission.php"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
         </ul>
     </div>
 
