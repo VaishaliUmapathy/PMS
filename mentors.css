@@ -8,7 +8,7 @@ body {
     display: flex;
 }
 .sidebar {
-    background: #333; /* Sidebar color */
+    background: #4b4276; /* Sidebar color */
     color: white;
     width: 200px;
     padding: 20px;

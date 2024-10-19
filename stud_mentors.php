@@ -12,6 +12,10 @@
     .mentor-section>h2{
         margin-left: 250px;
     }
+   
+        .main-content{
+            margin-top:100px;
+        }
 </style>
 <body>
 
@@ -27,6 +31,7 @@
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
             <li><a href="stud_submission.php"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
         </ul>
         
     </div>

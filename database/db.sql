@@ -31,28 +31,11 @@ CREATE TABLE projects_submissions (
     ppt VARCHAR(255) NOT NULL,
     abstract TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-=======
-CREATE DATABASE teams_management
-Use teams_management 
-CREATE TABLE teams (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    team_name VARCHAR(255) NOT NULL,
-    team_size INT NOT NULL,
-    year INT NOT NULL,
-    department VARCHAR(255) NOT NULL
+<<<<<<< HEAD
 );
 
-CREATE TABLE team_members (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    team_id INT NOT NULL,
-    member_name VARCHAR(255) NOT NULL,
-    roll_no VARCHAR(50) NOT NULL,
-    member_role VARCHAR(50) NOT NULL,
-    member_email VARCHAR(255) NOT NULL,
-    member_phone VARCHAR(15) NOT NULL,
-    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE
-);
+
+
 
 CREATE TABLE submissions (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -77,7 +60,7 @@ CREATE TABLE staff (
     role ENUM('Mentor', 'HOD', 'Principal', 'AO') NOT NULL, 
     login_time DATETIME
 );
-
+//created
 CREATE TABLE IF NOT EXISTS student_details (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -111,3 +94,35 @@ CREATE TABLE attendance (
     FOREIGN KEY (student_id) REFERENCES student_details(student_id)
 );
 >>>>>>> 184fa70 (profiles pages were updated)
+=======
+
+
+ALTER TABLE projects_submissions 
+    ADD mentor VARCHAR(255) NOT NULL,  -- Add the mentor field
+    ADD submission_type ENUM('abstract', 'ppt', 'both') DEFAULT 'both', -- Add the submission type (for tracking what was submitted)
+    ADD status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', -- Add status to track mentor approval
+    ADD project_id INT NOT NULL; -- Add a project ID to group submissions by project/team
+
+
+
+CREATE TABLE projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    project_title VARCHAR(255),
+    project_description TEXT,
+    submission_date DATE,
+    status VARCHAR(50),
+    mentor_comments TEXT,
+    files VARCHAR(255)
+);
+ALTER TABLE projects
+ADD team_name VARCHAR(255),
+ADD abstract TEXT,
+ADD ppt_link VARCHAR(255),
+ADD technology_stack VARCHAR(255);
+ALTER TABLE student_projects
+ADD semester VARCHAR(255),
+ADD team_name VARCHAR(255),
+ADD project_members TEXT;
+
+>>>>>>> 8349245 (the submission and editor page is created)
