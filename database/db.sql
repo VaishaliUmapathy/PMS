@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE DATABASE teams_management
 Use teams_management 
     
@@ -31,3 +32,82 @@ CREATE TABLE projects_submissions (
     abstract TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+=======
+CREATE DATABASE teams_management
+Use teams_management 
+CREATE TABLE teams (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    team_name VARCHAR(255) NOT NULL,
+    team_size INT NOT NULL,
+    year INT NOT NULL,
+    department VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE team_members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    team_id INT NOT NULL,
+    member_name VARCHAR(255) NOT NULL,
+    roll_no VARCHAR(50) NOT NULL,
+    member_role VARCHAR(50) NOT NULL,
+    member_email VARCHAR(255) NOT NULL,
+    member_phone VARCHAR(15) NOT NULL,
+    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE CASCADE
+);
+
+CREATE TABLE submissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    media VARCHAR(255),
+    file VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE students ( 
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    roll_number VARCHAR(20) NOT NULL UNIQUE, 
+    password VARCHAR(255) NOT NULL, 
+    login_time DATETIME
+);
+
+CREATE TABLE staff ( 
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    email VARCHAR(100) NOT NULL UNIQUE, 
+    password VARCHAR(255) NOT NULL, 
+    role ENUM('Mentor', 'HOD', 'Principal', 'AO') NOT NULL, 
+    login_time DATETIME
+);
+
+CREATE TABLE IF NOT EXISTS student_details (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    roll_number VARCHAR(20) NOT NULL UNIQUE,
+    univ_reg_no VARCHAR(50) NOT NULL UNIQUE,
+    cgpa DECIMAL(3, 2) NOT NULL,
+    degree VARCHAR(100) NOT NULL,
+    course VARCHAR(100) NOT NULL,
+    batch_year VARCHAR(9) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phno VARCHAR(15) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE academic_marks (
+    mark_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    semester INT NOT NULL,
+    review_type VARCHAR(50) NOT NULL,
+    marks DECIMAL(5,2),
+    review_date DATE,
+    FOREIGN KEY (student_id) REFERENCES student_details(student_id)
+);
+
+CREATE TABLE attendance (
+    attendance_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    attendance_date DATE NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    remarks VARCHAR(100),
+    FOREIGN KEY (student_id) REFERENCES student_details(student_id)
+);
+>>>>>>> 184fa70 (profiles pages were updated)

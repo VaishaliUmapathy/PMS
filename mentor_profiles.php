@@ -1,30 +1,50 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mentor Dashboard</title>
+    <title>mentors</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar">
-        <img src="assets/img/girlprofile.png" alt="" width="100px "/>
-        <h2 class="profile-name">Anitha</h2>
-        <h2 class="profile-roll">CSE</h2>
+        <img src="assets/img/girlprofile.png" alt="" width="100px" />
+        <h2 class="profile-name"><?php echo isset($mentor_data['name']) ? htmlspecialchars($mentor_data['name']) : ''; ?></h2>
+        <h2 class="profile-roll"><?php echo isset($mentor_data['department']) ? htmlspecialchars($mentor_data['department']) : ''; ?></h2>
         <ul>
             <li><a href="mentors_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="mentor_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
+<<<<<<< HEAD
             <li><a href="projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="cal.html"><i class="fas fa-project-diagram"></i>Calendar</a></li>
             <li><a href="sub.php"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="viewteams.php"><i class="fas fa-address-book"></i>Teams</a></li>
+=======
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Students</a>
+                <div class="dropdown-container">
+                    <a href="add_stud.php"><i class="fas fa-user-plus"></i> Add Students</a>
+                    <a href="list_students.php"><i class="fas fa-list"></i> List Students</a>
+                </div>
+            </li>
+            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
+            <li><a href="teams.html"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
+>>>>>>> 184fa70 (profiles pages were updated)
         </ul>
-        
     </div>
+
 
     <div class="main_header">
         <div class="header">
@@ -110,10 +130,19 @@
             </div>
         </form>
     </div>
-    
-   
-    
 </section>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+        
+        dropdownBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const dropdownContent = this.nextElementSibling;
+                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    });
+</script>
 
 </body>
 </html>

@@ -1,56 +1,69 @@
 <?php
-session_start(); // Start the session
-require 'db.php'; // Include your database connection
+session_start();
+require 'db.php'; // Ensure you have the correct database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['user_type'], $_POST['identifier'], $_POST['password'])) {
-        $user_type = $_POST['user_type'];
-        $identifier = $_POST['identifier']; 
-        $password = $_POST['password'];
+    $role = $_POST['role'];
+    $password = $_POST['password'];
+    $login_time = date("Y-m-d H:i:s"); // Current timestamp
 
-        // Prepare SQL based on user type
-        if ($user_type == 'student') {
-            $stmt = $conn->prepare("SELECT * FROM students WHERE roll_number = ?");
-        } elseif ($user_type == 'staff') {
-            $stmt = $conn->prepare("SELECT * FROM staff WHERE email = ?");
-        } elseif ($user_type == 'mentor') {
-            $stmt = $conn->prepare("SELECT * FROM mentors WHERE email_id = ?");
+    // Determine if the user is a student or staff
+    if ($role === 'Student') {
+        $roll_number = $_POST['roll_number'];
+        $_SESSION['roll_number'] = $roll_number;
+
+        // Query the students table using roll number
+        $stmt = $conn->prepare("SELECT * FROM students WHERE roll_number = ?");
+        $stmt->bind_param("s", $roll_number);
+    } else {
+        $username = $_POST['username'];
+        $_SESSION['username'] = $username; // Store username in session for later use
+
+        // Query the staff table using username
+        if ($role === 'Mentor') {
+            $stmt = $conn->prepare("SELECT * FROM staff WHERE email = ? AND role = 'Mentor'");
+        } elseif (in_array($role, ['HOD', 'Principal', 'Admin'])) {
+            $stmt = $conn->prepare("SELECT * FROM staff WHERE email = ? AND role IN ('HOD', 'Principal', 'Admin')");
         } else {
-            echo "Invalid user type.";
+            echo "Invalid role.";
             exit();
         }
+        $stmt->bind_param("s", $username);
+    }
 
-        $stmt->bind_param("s", $identifier);
-        $stmt->execute();
+    // Execute the query
+    if ($stmt->execute()) {
         $result = $stmt->get_result();
 
+        // Check if user exists and password matches
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
-            if (password_verify($password, $user['password'])) {
-                // Set session variables
-                $_SESSION['user_type'] = $user_type; 
-                $_SESSION['identifier'] = $identifier; 
-                $_SESSION['user_id'] = $user['id']; // Assuming you have an 'id' field
 
-                // Redirect to the appropriate dashboard
-                if ($user_type == 'student') {
+            // Check if the password is correct
+            if (password_verify($password, $user['password'])) {
+                // Successful login, set session variables
+                $_SESSION['role'] = $role;
+                $_SESSION['user_id'] = $user['id']; // Assuming each table has an 'id' field
+
+                // Redirect to student dashboard or mentor dashboard based on role
+                if ($role === 'Student') {
                     header("Location: stud_dash.php");
-                } elseif ($user_type == 'staff') {
-                    header("Location: mentors_profile.php");
-                } elseif ($user_type == 'mentor') {
+                } else {
                     header("Location: mentors_dash.php");
                 }
                 exit();
             } else {
-                echo "Invalid credentials. Please try again. (Password verification failed)";
+                echo "Invalid password.";
             }
         } else {
-            echo "Invalid credentials. Please try again. (No matching user found)";
+            echo "Invalid credentials.";
         }
     } else {
-        echo "Please fill in all fields.";
+        echo "Error executing query: " . $stmt->error;
     }
+    $stmt->close();
 }
 
 // Close the database connection
 $conn->close();
+?>

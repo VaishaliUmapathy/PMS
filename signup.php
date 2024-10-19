@@ -56,7 +56,8 @@
         <div class="form-container">
             <h2>Sign Up</h2>
             <form action="signup_action.php" method="POST">
-                <select name="user_type" required>
+                <select id="role" name="user_type" onchange="updateFields()" required>
+                    <option value="0" disabled selected>Select</option>
                     <option value="student">Student</option>
                     <option value="mentor">Mentor</option>
                     <option value="staff">Staff</option>
@@ -64,12 +65,41 @@
                     <option value="principal">Principal</option>
                     <option value="admin">Admin</option>
                 </select>
-                <input type="text" name="identifier" placeholder="Roll Number / Email ID" required>
-                <input type="password" name="password" placeholder="Password" required>
+
+                <!-- Roll Number for Students -->
+                <div id="rollNumberField" style="display: none;">
+                    <label for="roll_number">Roll Number:</label>
+                    <input type="text" id="roll_number" name="roll_number">
+                </div>
+
+                <!-- Username for other roles -->
+                <div id="usernameField">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username">
+                </div>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
                 <button type="submit">Sign Up</button>
             </form>
-            <p style="text-align: center; margin-top: 20px;">Already have an account? <a href="signin.html">Sign In</a></p>
+            <p style="text-align: center; margin-top: 20px;">Already have an account? <a href="signin.php">Sign In</a></p>
         </div>
     </div>
+
+    <script>
+        function updateFields() {
+            const role = document.getElementById('role').value;
+            const rollNumberField = document.getElementById('rollNumberField');
+            const usernameField = document.getElementById('usernameField');
+
+            if (role === 'student') {
+                rollNumberField.style.display = 'block';
+                usernameField.style.display = 'none';
+            } else {
+                rollNumberField.style.display = 'none';
+                usernameField.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
