@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 CREATE DATABASE teams_management
 Use teams_management 
     
@@ -31,7 +31,7 @@ CREATE TABLE projects_submissions (
     ppt VARCHAR(255) NOT NULL,
     abstract TEXT NOT NULL,
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-<<<<<<< HEAD
+
 );
 
 
@@ -60,7 +60,7 @@ CREATE TABLE staff (
     role ENUM('Mentor', 'HOD', 'Principal', 'AO') NOT NULL, 
     login_time DATETIME
 );
-//created
+--created
 CREATE TABLE IF NOT EXISTS student_details (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -85,16 +85,8 @@ CREATE TABLE academic_marks (
     FOREIGN KEY (student_id) REFERENCES student_details(student_id)
 );
 
-CREATE TABLE attendance (
-    attendance_id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id INT NOT NULL,
-    attendance_date DATE NOT NULL,
-    status VARCHAR(20) NOT NULL,
-    remarks VARCHAR(100),
-    FOREIGN KEY (student_id) REFERENCES student_details(student_id)
-);
->>>>>>> 184fa70 (profiles pages were updated)
-=======
+
+
 
 
 ALTER TABLE projects_submissions 
@@ -120,4 +112,25 @@ CREATE TABLE projects (
 
 
 
->>>>>>> 8349245 (the submission and editor page is created)
+CREATE TABLE student_project_marks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    roll_number VARCHAR(20),
+    semester INT,
+    year INT,
+    review_0 INT,
+    review_1 INT,
+    review_2 INT,
+    review_3 INT,
+    final_review INT
+);
+--attendance table
+CREATE TABLE IF NOT EXISTS attendance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    roll_number VARCHAR(20) NOT NULL,
+    week_number INT NOT NULL,
+    review_number INT NOT NULL,
+    status ENUM('Present', 'Absent') NOT NULL,
+    attendance_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (roll_number) REFERENCES student_details(roll_number) ON DELETE CASCADE
+);

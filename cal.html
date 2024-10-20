@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Side Navigation Bar</title>
+    <link rel="stylesheet" href="mentors.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
@@ -22,7 +23,7 @@
             display: flex;
         }
         .sidebar {
-            background: #333; /* Sidebar color */
+            background: #4b4276; /* Sidebar color */
             color: white;
             width: 200px;
             padding: 20px;
@@ -111,13 +112,18 @@
     <div class="sidebar">
         <img src="assets/img/girlprofile.png" alt="" width="100px "/>
         <h2 class="profile-name">Menu</h2>
-        <h2 class="profile-roll">21CS053</h2>
+        <h2 class="profile-roll">cse</h2>
         <ul>
-            
             <li><a href="mentors_dash.php"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="mentor_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
-            <li><a href="projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
-            <li><a href="sub.php"><i class="fas fa-blog"></i>Submission</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Students</a>
+                <div class="dropdown-container">
+                    <a href="add_stud.php"><i class="fas fa-user-plus"></i> Add Students</a>
+                    <a href="list_stud.php"><i class="fas fa-list"></i> List Students</a>
+                </div>
+            </li>
+            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="viewteams.php"><i class="fas fa-address-book"></i>Teams</a></li>
             <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
         </ul>

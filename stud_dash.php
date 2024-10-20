@@ -7,6 +7,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Student') {
 
 // Retrieve user data from session
 if (isset($_SESSION['user'])) {
+    $name = $_SESSION['name'];
+$roll_number = $_SESSION['roll_number'];
     $user = $_SESSION['user']; // Fetch the user data from session
 } else {
     // Handle the case where user data is not set

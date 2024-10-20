@@ -4,7 +4,11 @@ $servername = "localhost";
 $username = "root"; 
 $password = ""; 
 $dbname = "teams_management"; 
+<<<<<<< HEAD
 // $dbname = "project_management_db"; Database connection
+=======
+
+>>>>>>> c18bbe4efabbb4103e1c0706a2f2d2912b446159
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -107,6 +111,10 @@ $conn->close();
             text-align: center;         /* Center text */
         }
         
+<<<<<<< HEAD
+=======
+        
+>>>>>>> c18bbe4efabbb4103e1c0706a2f2d2912b446159
    
     </style>
 </head>

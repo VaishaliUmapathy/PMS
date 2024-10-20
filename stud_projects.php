@@ -230,7 +230,7 @@ $conn->close();
 
 <section class="main-content">
 <div class="container">
-        <!--<button id="create-project-btn" class="btn primary">Create Project</button>-->
+       <button id="create-project-btn" class="btn primary">Create Project</button>
 
         <!-- Hidden form container -->
         <div id="form-container" class="hidden form-container">
@@ -271,11 +271,11 @@ $conn->close();
                         <p><strong>Submission Date:</strong> <?php echo htmlspecialchars($project['submission_date']); ?></p>
                         <p><strong>Status:</strong> <?php echo htmlspecialchars($project['status']); ?></p>
 
-                        <div class="project-buttons">
-                            <a href="edit_projects.php?id=<?php echo $project['id']; ?>" class="btn edit">Edit</a>
-                            <a href="?delete_id=<?php echo $project['id']; ?>" class="btn delete" onclick="return confirm('Are you sure you want to delete this project?');">Delete</a>
-                            <a href="view_projects.php?id=<?php echo $project['id']; ?>" class="btn view">View</a>
-                        </div>
+                        <div class="team-actions">  
+                                <button class="edit-btn" onclick="editTeam(<?php echo $team['id']; ?>)">Edit</button>  
+                                <button class="view-btn" onclick="viewTeam(<?php echo $team['id']; ?>)">View</button>  
+                                <button class="delete-btn" onclick="deleteTeam(<?php echo $team['id']; ?>)">Delete</button>  
+                        </div>  
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>

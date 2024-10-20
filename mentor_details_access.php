@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_SESSION['email']; // Store email in session during signup
 
     // Database connection
-    $conn = new mysqli('localhost', 'root', '', 'project_managment_db');
+    $conn = new mysqli('localhost', 'root', '', 'project_managment_db');//$dbname = 'teams_management';
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }

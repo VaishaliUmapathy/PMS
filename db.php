@@ -2,7 +2,8 @@
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$dbname = 'project_management_db';
+$dbname = 'teams_management';
+//$dbname = 'teams_management_db';
 
 
 // Create connection
