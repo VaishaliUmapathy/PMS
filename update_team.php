@@ -1,5 +1,5 @@
 <?php
-include('db_connection.php'); // Include the database connection
+include('db.php'); // Include the database connection
 
 // Check if form data is set
 if (isset($_POST['team_id'], $_POST['team_name'], $_POST['team_size'], $_POST['year'], $_POST['department'])) {
@@ -31,7 +31,7 @@ if (isset($_POST['team_id'], $_POST['team_name'], $_POST['team_size'], $_POST['y
         }
         
         // Redirect to index or success page
-        header("Location: index.php");
+        header("Location: stud_dash.php");
         exit();
     } else {
         echo "Error updating team: " . $conn->error;

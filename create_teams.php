@@ -1,5 +1,6 @@
 <?php
-include 'db_connection.php';  // Include database connection
+include 'db.php';  // Include database connection
+//inlcude 'db.php'; // Include database connection
 
 $messages = [];
 
@@ -406,7 +407,6 @@ $conn->close();
             <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
             <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
         </ul>
-        
     </div>
 
     <div class="main_header">

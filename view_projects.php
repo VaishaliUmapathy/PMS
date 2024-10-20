@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,7 +141,7 @@
     <div class="container">
         <?php
         // Database connection
-        $conn = new mysqli("localhost", "root", "", "project_management_db");
+        $conn = new mysqli("localhost", "root", "", "teams_management");
 
         // Check if the connection was successful
         if ($conn->connect_error) {

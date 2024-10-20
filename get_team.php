@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php';  // Include database connection
+include 'db.php';  // Include database connection
 
 if (isset($_GET['id'])) {
     $team_id = (int)$_GET['id'];

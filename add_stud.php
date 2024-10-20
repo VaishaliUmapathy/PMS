@@ -3,7 +3,8 @@
 $servername = "localhost"; 
 $username = "root"; 
 $password = ""; 
-$dbname = "project_management_db"; 
+//$dbname = "project_management_db"; 
+$dbname = "teams_management"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -76,7 +77,6 @@ $conn->close();
         <h2 class="profile-roll"><?php echo isset($mentor_data['department']) ? htmlspecialchars($mentor_data['department']) : ''; ?></h2>
         <ul>
             <li><a href="mentors_dash.php"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="mentor_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li class="dropdown">
                 <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Students</a>
                 <div class="dropdown-container">
