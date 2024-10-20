@@ -103,26 +103,21 @@ ALTER TABLE projects_submissions
     ADD status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', -- Add status to track mentor approval
     ADD project_id INT NOT NULL; -- Add a project ID to group submissions by project/team
 
-
-
 CREATE TABLE projects (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id INT,
-    project_title VARCHAR(255),
-    project_description TEXT,
-    submission_date DATE,
-    status VARCHAR(50),
-    mentor_comments TEXT,
-    files VARCHAR(255)
+    title VARCHAR(255) NOT NULL,
+    team_name VARCHAR(255) NOT NULL,
+    leader VARCHAR(255) NOT NULL,
+    members TEXT NOT NULL,  -- Assuming this will store comma-separated values
+    mentor VARCHAR(255) NOT NULL,
+    mentor_id INT NOT NULL,
+    status ENUM('Pending', 'Approved', 'Rejected') NOT NULL,
+    abstract MEDIUMTEXT NOT NULL,
+    ppt_path VARCHAR(255),  -- Assuming this is optional
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (mentor_id) REFERENCES staff(id) ON DELETE CASCADE
 );
-ALTER TABLE projects
-ADD team_name VARCHAR(255),
-ADD abstract TEXT,
-ADD ppt_link VARCHAR(255),
-ADD technology_stack VARCHAR(255);
-ALTER TABLE student_projects
-ADD semester VARCHAR(255),
-ADD team_name VARCHAR(255),
-ADD project_members TEXT;
+
+
 
 >>>>>>> 8349245 (the submission and editor page is created)

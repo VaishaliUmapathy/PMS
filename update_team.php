@@ -1,6 +1,6 @@
 <?php
 include('db_connection.php'); // Include the database connection
-
+//include('db.php');
 // Check if form data is set
 if (isset($_POST['team_id'], $_POST['team_name'], $_POST['team_size'], $_POST['year'], $_POST['department'])) {
     $team_id = (int)$_POST['team_id'];

@@ -1,4 +1,5 @@
-<?php include'db_connect.php' ?>
+<?php include 'db_connection.php';
+            //include 'db.php'; ?>
 <div class="col-lg-12">
 	<div class="card card-outline card-success">
 		<div class="card-header">

@@ -119,7 +119,9 @@
 <section class="main-content">
     <div class="container">
         <?php
-            include 'db.php';
+            include 'db_connection.php';
+            //include 'db.php';
+
 
             // Initialize $project as null to prevent undefined variable warnings
             $project = null;

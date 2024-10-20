@@ -8,6 +8,12 @@
     <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
+
+    <!-- Include Summernote CSS and JS from CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,7 +28,7 @@
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            margin-top: 0;
         }
         h2 {
             text-align: center;
@@ -31,15 +37,15 @@
         form {
             margin-top: 30px;
             display: flex;
-            flex-wrap: wrap; 
-            justify-content: space-between; 
+            flex-wrap: wrap;
+            justify-content: space-between;
         }
         .form-group-stud {
             display: flex;
             flex-direction: column;
             margin-bottom: 15px;
             width: calc(50% - 10px);
-            padding: 0 5px; 
+            padding: 0 5px;
         }
         .full-width {
             width: 100%;
@@ -50,12 +56,16 @@
             text-align: left;
             font-weight: bold;
         }
-        input[type="text"], input[type="date"], input[type="file"], textarea {
-           padding: 10px;
+        input[type="text"],
+        input[type="date"],
+        input[type="file"],
+        textarea,
+        select {
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             width: 100%;
-            box-sizing: border-box; 
+            box-sizing: border-box;
         }
         textarea {
             height: 100px;
@@ -74,88 +84,32 @@
         input[type="submit"]:hover {
             background-color: #0056b3;
         }
-        /* Responsive design for smaller screens */
         @media (max-width: 768px) {
             .container {
                 width: 90%;
             }
-            .form-group {
+            .form-group-stud {
                 width: 100%;
             }
             .full-width {
                 width: 100%;
             }
         }
-        button{
-            padding:5px;
+        button {
+            padding: 5px;
             border-radius: 7px;
-            background-color: #333;
-            color:#fff;
+            color: #fff;
         }
-       
-        .main-content{
-            margin-top:100px;
+        .btn{
+            width: 100%;
+            background-color: #594f8d;
+            font-size: medium;
+            cursor: pointer;
         }
-   
+        .main-content {
+            margin-top: 100px;
+        }
     </style>
-
-    <!-- 
-    <script src="https://cdn.tiny.cloud/1/ikqidsva7e09d7ojpfnaadk20er7mkf9ra3u324d63pp5cno/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-      tinymce.init({
-        selector: '#abstract',
-        plugins: [
-          'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-          'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-        ],
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-          { value: 'First.Name', title: 'First Name' },
-          { value: 'Email', title: 'Email' },
-        ],
-        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-      });
-      function downloadAbstract(event) {
-            event.preventDefault(); 
-            const abstractContent = tinymce.get("abstract").getContent({ format: 'text' });
-            const blob = new Blob([abstractContent], { type: 'text/plain' });
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = 'abstract.txt'; // Change the name if you want
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
-
-      function downloadAsPDF() {
-            event.preventDefault();
-            const abstractContent = tinymce.get("abstract").getContent({ format: 'text' });
-            const blob = new Blob([abstractContent], { type: 'application/pdf' });
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = 'abstract.pdf';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
-
-      function downloadAsDOCX() {
-            event.preventDefault();  // Prevent form submission if downloadAsDOCX is called
-            const abstractContent = tinymce.get("abstract").getContent({ format: 'text' });
-            const blob = new Blob([abstractContent], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = 'abstract.docx';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
-        
-
-
-    </script>TinyMCE Integration -->
 </head>
 <body>
 
@@ -171,7 +125,6 @@
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
             <li><a href="stud_submission.php"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
-            <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
         </ul>
     </div>
 
@@ -191,49 +144,98 @@
     </div>
 </div>
 <section class="main-content">
-<div class="container">
-        <form action="stud_submit.php" method="POST" enctype="multipart/form-data">
+    <div class="container">
+        <form id="submissionForm" action="stud_submit.php" method="POST" enctype="multipart/form-data" onsubmit="submitForm(event)">
             <div class="form-group-stud">
                 <label for="title">Project Title:</label>
                 <input type="text" id="title" name="title" required>
             </div>
-            
+            <div class="form-group-stud">
+                <label for="team">Team Name:</label>
+                <input type="text" id="team" name="team" required>
+            </div>
+            <div class="form-group-stud">
+                <label for="status">Status</label>
+                <select name="status" id="status" class="custom-select custom-select-sm">
+                    <option value="" disabled selected>Select Status</option>    
+                    <option value="0">Pending</option>
+                    <option value="3">On-Hold</option>
+                    <option value="5">Done</option>
+                </select>
+            </div>
             <div class="form-group-stud">
                 <label for="leader">Project Leader:</label>
                 <input type="text" id="leader" name="leader" required>
             </div>
             <div class="form-group-stud">
-                <label for="members">Project Members </label>
+                <label for="members">Project Members:</label>
                 <input type="text" id="members" name="members" required>
             </div>
             <div class="form-group-stud">
-                <label for="mentor">Project Mentor </label>
+                <label for="mentor">Project Mentor:</label>
                 <input type="text" id="mentor" name="mentor" required>
             </div>
             <div class="form-group-stud">
-                <label for="start_date">Start Date:</label>
-                <input type="date" id="start_date" name="start_date" required>
+                <label for="mentor_id">Mentor ID:</label>
+                <input type="text" id="mentor_id" name="mentor_id" required placeholder="Enter mentor's email or ID">
             </div>
             <div class="form-group-stud">
-                <label for="end_date">End Date:</label>
-                <input type="date" id="end_date" name="end_date" required>
+                <label for="ppt">Upload:</label>
+                <input type="file" id="ppt" name="ppt" accept=".ppt, .pptx, .jpg, .jpeg, .png, .mp4">
             </div>
-            <!--<div class="form-group-stud full-width">
-                <label for="abstract">Project Abstract:</label>
+
+            <!-- Summernote Textarea for Project Abstract -->
+            <div class="form-group-stud full-width">
+                <label for="abstract">Description:</label>
                 <textarea id="abstract" name="abstract" required></textarea>
-            </div>-->
-            <div class="form-group-stud">
-                <label for="ppt">Upload PPT:</label>
-                <input type="file" id="ppt" name="ppt" accept=".ppt, .pptx" required>
             </div>
-            <!--<button onclick="downloadAbstract()">Download Abstract as TXT</button>  
-            <button onclick="downloadAsPDF()">Download Abstract as PDF</button> 
-            <button onclick="downloadAsDOCX()">Download Abstract as DOCX</button> PDF download button -->
-            
-            <input type="submit" value="Submit">
+
+            <button class="btn"  type="submit" id="submit-btn">Submit</button>
+
         </form>
-       
     </div>
 </section>
+
+<script>
+    // Initialize Summernote on document ready
+    $(document).ready(function() {
+        $('#abstract').summernote({
+            height: 400,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+
+    // AJAX form submission
+    function submitForm(event) {
+        event.preventDefault(); // Prevent the form from submitting the normal way
+
+        // Create a new FormData object from the form
+        var formData = new FormData(document.getElementById("submissionForm"));
+
+        // Send the form data via AJAX
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "stud_submit.php", true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Show success alert
+                alert("Submission successful!");
+                document.getElementById("submissionForm").reset();
+                $('#abstract').summernote('reset');
+
+            } else {
+                // Show error alert
+                alert("There was an error with your submission.");
+            }
+        };
+        xhr.send(formData);
+    }
+</script>
+
 </body>
 </html>

@@ -1,5 +1,8 @@
 <?php
-include 'db.php';  // Include database connection
+include 'db_connection.php';  // Include database connection
+//include 'db.php';  // Include database connection
+
+$messages = [];
 
 $messages = [];
 

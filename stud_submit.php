@@ -1,90 +1,88 @@
 <?php
-// Start the session
-session_start();
-include('db.php');
+// Include your database connection file
+include 'db_connection.php';
 
-// Fetch mentor data
-$query = "SELECT name, email FROM mentors"; 
-$result = mysqli_query($conn, $query);
-$mentors = [];
-if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $mentors[] = $row; // Store mentor data in an array
-    }
-} else {
-    echo "No mentors found."; 
-}
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get and sanitize form data
-    $title = mysqli_real_escape_string($conn, $_POST['title']);
-    $leader = mysqli_real_escape_string($conn, $_POST['leader']);
-    $members = mysqli_real_escape_string($conn, $_POST['members']);
-    $mentor_email = mysqli_real_escape_string($conn, $_POST['mentor']); 
-    $start_date = mysqli_real_escape_string($conn, $_POST['start_date']);
-    $end_date = mysqli_real_escape_string($conn, $_POST['end_date']);
-    
-    // Handle file upload for PPT
-    $ppt = $_FILES['ppt'];
-    $ppt_name = basename($ppt['name']);
-    $ppt_tmp_name = $ppt['tmp_name'];
-    $ppt_error = $ppt['error'];
-    $ppt_size = $ppt['size'];
+    // Retrieve form data
+    $title = $_POST['title'];
+    $team_name = $_POST['team'];
+    $status = $_POST['status'];
+    $leader = $_POST['leader'];
+    $members = $_POST['members']; // Comma-separated string
+    $mentor_email = $_POST['mentor_id']; // Assuming you are passing the email as mentor_id
+    $abstract = $_POST['abstract'];
 
-    // Define upload directory
-    $upload_directory = 'uploads/';
-    
-    // Validate file type and size (optional: adjust the allowed types and size as needed)
-    $allowed_types = ['application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
-    $ppt_file_type = mime_content_type($ppt_tmp_name);
-    
-    if ($ppt_error === 0) {
-        if (in_array($ppt_file_type, $allowed_types) && $ppt_size <= 2 * 1024 * 1024) { // 2 MB limit
-            // Move uploaded file to the designated directory
-            if (move_uploaded_file($ppt_tmp_name, $upload_directory . $ppt_name)) {
-                // Display success message
-                echo "<h1>Submission Successful!</h1>";
-                echo "<h2>Your project details have been submitted successfully!</h2>";
-                echo "<strong>Title:</strong> $title<br>";
-                echo "<strong>Project Leader:</strong> $leader<br>";
-                echo "<strong>Project Members:</strong> $members<br>";
-                echo "<strong>Mentor Email:</strong> $mentor_email<br>";
-                echo "<strong>Start Date:</strong> $start_date<br>";
-                echo "<strong>End Date:</strong> $end_date<br>";
-                echo "<strong>PPT Uploaded:</strong> $ppt_name<br>";
-                
-                // Email notification
-                $subject = "New Project Submission from $leader";
-                $message = "A new project has been submitted:\n\nTitle: $title\nLeader: $leader\nMembers: $members\nStart Date: $start_date\nEnd Date: $end_date\nPPT: $ppt_name";
-                $headers = "From: noreply@yourdomain.com"; 
-               
-                // Send email to mentor
-                if (mail($mentor_email, $subject, $message, $headers)) {
-                    echo "Email sent to mentor successfully.";
-                } else {
-                    echo "Failed to send email.";
-                }
+    // Initialize mentor ID variable
+    $mentor_id = null;
+    $mentor_id_valid = false;
 
-                // Redirect to the dashboard after 3 seconds
-                echo "<script>
-                        setTimeout(function() {
-                            window.location.href = 'stud_dash.php';
-                        }, 3000);
-                      </script>";
-            } else {
-                echo "Failed to upload PPT file.";
-            }
-        } else {
-            echo "Invalid file type or size exceeds limit.";
-        }
-    } else {
-        echo "Error in file upload.";
+    // Prepare statement to check if the mentor ID exists
+    $stmt = $conn->prepare("SELECT id FROM staff WHERE email = ?");
+    $stmt->bind_param("s", $mentor_email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        // Fetch the mentor ID
+        $row = $result->fetch_assoc();
+        $mentor_id = $row['id']; // Set mentor_id to the valid ID from the staff table
+        $mentor_id_valid = true;
     }
-} else {
-    echo "Invalid request.";
+
+    // Check if the mentor ID is valid before proceeding
+    if ($mentor_id_valid) {
+        // File upload handling
+        $ppt_path = null;
+        if (isset($_FILES['ppt']) && $_FILES['ppt']['error'] == UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['ppt']['tmp_name'];
+            $fileName = $_FILES['ppt']['name'];
+            $fileSize = $_FILES['ppt']['size'];
+            $fileType = $_FILES['ppt']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
+
+            // Specify allowed file types
+            $allowedFileExtensions = ['ppt', 'pptx', 'jpg', 'jpeg', 'png', 'mp4'];
+
+            if (in_array($fileExtension, $allowedFileExtensions)) {
+                // Set the upload file path
+                $uploadFileDir = './uploads/'; // Ensure this directory exists and is writable
+                $ppt_path = $uploadFileDir . uniqid('file_', true) . '.' . $fileExtension;
+
+                // Move the file to the specified directory
+                if (move_uploaded_file($fileTmpPath, $ppt_path)) {
+                    // File successfully uploaded
+                } else {
+                    echo json_encode(['status' => 'error', 'message' => 'Error moving the uploaded file.']);
+                    exit;
+                }
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Upload failed. Allowed file types: ' . implode(', ', $allowedFileExtensions)]);
+                exit;
+            }
+        }
+
+        // Prepare and bind the insert statement
+        $stmt = $conn->prepare("INSERT INTO projects (title, team_name, status, leader, members, mentor, mentor_id, abstract, ppt_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssssiss", $title, $team_name, $status, $leader, $members, $mentor_email, $mentor_id, $abstract, $ppt_path); // Adjusted to "ssssssiss"
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            // Return success JSON response
+            echo json_encode(['status' => 'success', 'message' => 'Submission successful!']);
+        } else {
+            // Return error JSON response
+            echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+        }
+
+        // Close the statement
+        $stmt->close();
+    } else {
+        // Return error JSON response for invalid mentor ID
+        echo json_encode(['status' => 'error', 'message' => 'Invalid mentor ID!']);
+    }
 }
+
+// Close the database connection
+$conn->close();
 ?>

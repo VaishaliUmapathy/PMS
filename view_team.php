@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include('db_connection.php'); // Include the database connection
+include('db_connection.php'); // include('db.php');Include the database connection
 
 // Get the team ID from the URL (view_team.php?id=1)
 if (isset($_GET['id'])) {

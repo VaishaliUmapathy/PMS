@@ -1,6 +1,6 @@
 <?php
-include 'db_connection.php';  // Include your database connection
-
+include 'db_connection.php';
+//include 'db.php';
 header('Content-Type: application/json'); // Ensure the response is JSON
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {

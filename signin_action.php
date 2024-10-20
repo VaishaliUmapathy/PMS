@@ -1,6 +1,7 @@
 <?php
 session_start();
-require 'db.php'; // Ensure you have the correct database connection file
+require 'db_connection.php';
+//require 'db.php'; // Ensure you have the correct database connection file
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $role = $_POST['role'];

@@ -2,7 +2,8 @@
 $host = 'localhost'; 
 $username = 'root'; 
 $password = ''; 
-$database = 'project_management_db'; 
+//$dbname = "project_management_db"; 
+$dbname = "teams_management"; 
 
 $conn = new mysqli($host, $username, $password, $database);
 if ($conn->connect_error) {
