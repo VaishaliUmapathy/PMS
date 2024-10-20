@@ -1,11 +1,6 @@
 <?php
-<<<<<<< HEAD
 include 'db_connection.php';
 //include 'db.php';
-=======
-include 'db.php';  // Include database connection
-
->>>>>>> c18bbe4efabbb4103e1c0706a2f2d2912b446159
 if (isset($_GET['id'])) {
     $team_id = (int)$_GET['id'];
 
