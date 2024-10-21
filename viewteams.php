@@ -70,6 +70,7 @@
         .main-content {
             padding: 20px;
             margin-left: 250px;
+            margin-top: 100px;
             width: 100%;
             background-color: #f8f9fa;
         }

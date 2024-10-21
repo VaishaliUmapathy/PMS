@@ -1,18 +1,76 @@
+<?php 
+include 'db_connection.php';  // Include your database connection
+
+$messages = [];
+$project_to_edit = null;
+
+// Check if an ID is passed to edit a project
+if (isset($_GET['id'])) {
+    $project_id = $_GET['id'];
+
+    // Fetch the project details for editing
+    $sql = "SELECT * FROM student_projects WHERE id = $project_id";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $project_to_edit = $result->fetch_assoc(); // Store project details in $project_to_edit
+    } else {
+        $messages[] = "Project not found.";
+    }
+}
+
+// Handle the update request
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_project'])) {
+    var_dump($_POST);
+    $project_title = $conn->real_escape_string($_POST['project_title']);
+    $project_description = $conn->real_escape_string($_POST['project_description']);
+    $team_name = $conn->real_escape_string($_POST['team_name']);
+    $team_members = $conn->real_escape_string($_POST['team_members']);
+    $technology_stack = $conn->real_escape_string($_POST['technology_stack']);
+
+    // Update the project in the database
+    $update_sql = "UPDATE student_projects 
+               SET project_title = '$project_title', 
+                   project_description = '$project_description', 
+                   team_name = '$team_name', 
+                   team_members = '$team_members', 
+                   technology_stack = '$technology_stack' 
+               WHERE id = $project_id";
+
+
+    if ($conn->query($update_sql) === TRUE) {
+        $messages[] = "Project updated successfully!";
+        header("Location: edit_projects.php"); // Redirect to the projects page after update
+        exit();
+    } else {
+        $messages[] = "Error updating project: " . $conn->error;
+    }
+}
+
+// Fetch all projects to display in the table
+$projects_sql = "SELECT * FROM student_projects";
+$projects_result = $conn->query($projects_sql);
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Project</title>
+    <title>Student Project Dashboard</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="mentors.css">
     <script src="https://kit.fontawesome.com/0f4e2bc10d.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: whitesmoke;
+            background-color: whitesmoke; /* Light blue */
             margin: 0;
             padding: 0;
         }
@@ -20,73 +78,157 @@
         .container {
             max-width: 100%;
             margin-left: 210px;
+            background-color: #FFFFFF; 
             padding: 20px;
-            margin-top: 100px;
-        }
-
-        .project-card {
-            background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
         }
 
-        .project-title, .team-name {
-            font-size: 24px;
-            color: #594f8d;
+        /* Header Styles */
+        h1, h2, h3 {
+            color: #594f8d; 
+        }
+        
+        .header > h1 {
             text-transform: uppercase;
-            margin-bottom: 10px;
+            font-size: 30px;
         }
 
-        .project-details h3 {
-            font-size: 20px;
-            color: #594f8d;
-            margin-bottom: 10px;
-        }
-
-        .project-details p {
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 10px;
+        .main-content {
+            margin-top: 100px;   
         }
 
         .form-container {
-            background-color: white;
+            background-color: #f7f7f7; /* Light gray background */
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Slight shadow */
+            margin-bottom: 20px;
         }
 
-        .form-container input[type="text"],
-        .form-container textarea {
+        /* Form row styles */
+        .form-row {
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 1rem; 
+        }
+
+        .form-group {
+            flex: 1; 
+            margin-right: 10px; 
+        }
+        
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #594f8d; /* Label color matching the theme */
+        }
+
+        .form-group:last-child {
+            margin-right: 0; 
+        }
+
+        /* Input and select styles */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Button Styles */
+        button {
+            background-color: #594f8d;
+            margin: 10px;
+            color: #FFFFFF; 
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Created Projects Section */
+        #created-projects {
+            display: flex;
+            justify-content: space-evenly; 
+            padding: 20px;
+        }
+
+        .project-box {
+            background-color: white;
+            width: 400px; /* Two cards in a row */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            margin: 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-box h3 {
+            font-size: 18px;
+            margin-bottom: 5px; /* Reduce space below heading */
+        }
+
+        .project-box p {
+            margin: 2px 0; /* Tighten space between paragraphs */
+            line-height: 1.2; /* Reduce line spacing */
+        }
+
+        /* Styling Error Messages */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }   
+
+        .project-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px; /* Space above buttons */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .form-container input[type="text"], .form-container textarea {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
         .form-container button {
             background-color: #594f8d;
             color: white;
-            padding: 10px 20px;
+            padding: 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
-
-        .form-container button:hover {
-            background-color: #483a8b;
-        }
-
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar">
-        <img src="assets/img/girlprofile.png" alt="Profile Picture" width="100px"/>
+        <img src="assets/img/girlprofile.png" alt="" width="100px "/>
         <h2 class="profile-name">Vaishali</h2>
         <h2 class="profile-roll">21CS053</h2>
         <ul>
@@ -94,12 +236,19 @@
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="stud_projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
-            <li><a href="stud_submission.php"><i class="fas fa-blog"></i>Submission</a></li>
-            <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
-            <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
-        </ul>
-    </div>
 
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Submission</a>
+                <div class="dropdown-container">
+                    <a href="add_sub.php"><i class="fas fa-user-plus"></i> Add Submission</a>
+                    <a href="list_sub.php"><i class="fas fa-list"></i> List Submission</a>
+                </div>
+            </li>
+
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+
+    </div>
     <div class="main_header">
         <div class="header">
             <h1>Edit Project</h1>
@@ -117,71 +266,79 @@
 </div>
 
 <section class="main-content">
-    <div class="container">
-        <?php
-            include 'db_connection.php';
-            //include 'db.php';
+<div class="container">
+    <h1>Edit Projects</h1>
 
+    <!-- Display messages -->
+    <?php if (!empty($messages)): ?>
+        <div class="messages">
+            <?php foreach ($messages as $message): ?>
+                <p><?php echo $message; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
-            // Initialize $project as null to prevent undefined variable warnings
-            $project = null;
+    <!-- Display all projects in a table -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Project Title</th>
+                <th>Project Description</th>
+                <th>Team Name</th>
+                <th>Team Members</th>
+                <th>Technology Stack</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if ($projects_result->num_rows > 0): ?>
+                <?php while($project = $projects_result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?php echo $project['id']; ?></td>
+                        <td><?php echo $project['project_title']; ?></td>
+                        <td><?php echo $project['project_description']; ?></td>
+                        <td><?php echo $project['team_name']; ?></td>
+                        <td><?php echo $project['team_members']; ?></td>
+                        <td><?php echo $project['technology_stack']; ?></td>
+                        <td>
+                            <a href="edit_projects.php?id=<?php echo $project['id']; ?>">Edit</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7">No projects found.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
-            // Handle GET request to fetch project details
-            if (isset($_GET['id'])) {
-                $project_id = $_GET['id'];
-
-                // Fetch project details securely
-                $stmt = $conn->prepare("SELECT * FROM student_projects WHERE id = ?");
-                $stmt->bind_param("i", $project_id); // Use parameter binding to prevent SQL injection
-                $stmt->execute();
-                $result = $stmt->get_result();
-
-                if ($result->num_rows > 0) {
-                    $project = $result->fetch_assoc();
-                } else {
-                    echo "<p>Project not found.</p>";
-                }
-
-                $stmt->close();
-            }
-
-            // Handle POST request to update project
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                $project_title = $conn->real_escape_string($_POST['project_title']);
-                $project_description = $conn->real_escape_string($_POST['project_description']);
-
-                $stmt = $conn->prepare("UPDATE student_projects SET project_title = ?, project_description = ? WHERE id = ?");
-                $stmt->bind_param("ssi", $project_title, $project_description, $project_id);
-                $stmt->execute();
-
-                if ($stmt->affected_rows > 0) {
-                    header("Location: stud_projects.php"); // Redirect after successful update
-                    exit();
-                } else {
-                    echo "<p>Failed to update project or no changes made.</p>";
-                }
-
-                $stmt->close();
-            }
-
-            $conn->close();
-        ?>
-
-        <?php if ($project): ?>
+    <!-- Edit form (only visible when editing a project) -->
+    <?php if ($project_to_edit): ?>
+        <h2>Edit Project ID: <?php echo $project_to_edit['id']; ?></h2>
+        <form action="edit_projects.php?id=<?php echo $project_to_edit['id']; ?>" method="POST">
             <div class="form-container">
-                <form method="POST" action="">
-                    <label for="project-title">Project Title</label>
-                    <input type="text" id="project-title" name="project_title" value="<?php echo htmlspecialchars($project['project_title']); ?>" required>
-                    
-                    <label for="project-description">Project Description</label>
-                    <textarea id="project-description" name="project_description" required><?php echo htmlspecialchars($project['project_description']); ?></textarea>
+                <label for="project_title">Project Title:</label>
+                <input type="text" name="project_title" id="project_title" value="<?php echo $project_to_edit['project_title']; ?>" required />
 
-                    <button type="submit">Update Project</button>
-                </form>
+                <label for="project_description">Project Description:</label>
+                <input type="text" name="project_description" id="project_description" value="<?php echo $project_to_edit['project_description']; ?>" required />
+
+                <label for="team_name">Team Name:</label>
+                <input type="text" name="team_name" id="team_name" value="<?php echo $project_to_edit['team_name']; ?>" required />
+
+                <label for="team_members">Team Members:</label>
+                <textarea name="team_members" id="team_members" rows="4" required><?php echo $project_to_edit['team_members']; ?></textarea>
+
+                <label for="technology_stack">Technology Stack:</label>
+                <input type="text" name="technology_stack" id="technology_stack" value="<?php echo $project_to_edit['technology_stack']; ?>" required />
+
+                <button type="submit" name="update_project">Update Project</button>
             </div>
-        <?php endif; ?>
-    </div>
-</section>
-
+        </form>
+    <?php endif; ?>
+</div>
+    </section>
 </body>
 </html>
