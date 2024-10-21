@@ -1,38 +1,26 @@
 <?php
 include 'db_connection.php';  // Include database connection
 
-$messages = [];
 
-// Handle POST request to create a new project
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $data = $_POST;  // Get POST data directly from the form
-
-    // Validate input fields
-    if (empty($data['project_title']) || empty($data['project_description'])) {
-        $messages[] = "Project title and description are required.";
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $team_name = $_POST['team_name'];
+    $members = $_POST['members'];
+    $tech_stack = $_POST['tech_stack'];
+    $student_id = $_SESSION['student_id']; // Assuming you are storing student ID in session
+    
+    // Prepare SQL statement to insert the project data into the database
+    $query = "INSERT INTO projects (student_id, title, description, team_name, members, tech_stack) 
+              VALUES ('$student_id', '$title', '$description', '$team_name', '$members', '$tech_stack')";
+    
+    if (mysqli_query($conn, $query)) {
+        $success_message = "Project created successfully!";
     } else {
-        $student_id = 1; // Replace with actual student ID based on your application's logic
-        $project_title = $conn->real_escape_string($data['project_title']);
-        $project_description = $conn->real_escape_string($data['project_description']);
-        $submission_date = date('Y-m-d'); // Set to today's date or use an input field
-        $status = 'Pending'; // Default status; you can change this as needed
-        $mentor_comments = ''; // Initial value
-        $files = ''; // Initial value; handle file uploads if necessary
-
-        // Insert project into the 'student_projects' table
-        $sql = "INSERT INTO student_projects (student_id, project_title, project_description, submission_date, status, mentor_comments, files) 
-                VALUES ('$student_id', '$project_title', '$project_description', '$submission_date', '$status', '$mentor_comments', '$files')";
-
-        if ($conn->query($sql) === TRUE) {
-            // Success message
-            $messages[] = "Project '$project_title' created successfully!";
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        } else {
-            $messages[] = "Failed to create project: " . $conn->error;
-        }
+        $error_message = "Error: " . mysqli_error($conn);
     }
 }
+
 
 // Fetch all projects
 $sql = "SELECT * FROM student_projects";
@@ -132,9 +120,11 @@ $conn->close();
 
         /* Form row styles */
         .form-row {
-            display: flex; 
-            justify-content: space-between; 
-            margin-bottom: 1rem; 
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Label takes 1 part, input takes 2 parts */
+            grid-gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
         .form-group {
@@ -165,7 +155,11 @@ $conn->close();
             border-radius: 5px;
             box-sizing: border-box;
         }
-
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
         /* Button Styles */
         button {
             background-color: #594f8d;
@@ -280,11 +274,25 @@ $conn->close();
                             <label for="project_description">Project Description:</label>
                             <input type="text" name="project_description" id="project_description" required />
                         </div>
-                    </div>
-                    <button type="submit">Create Project</button>
-                    <button type="button" id="cancel-btn">Cancel</button>
-                </form>
-            </div>
+                        <div class="form-group">
+                            <label for="team_name">Team Name:</label>
+                            <input type="text" name="team_name" id="team_name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="members">Team Members (Comma Separated):</label>
+                            <input type="text" name="members" id="members" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tech_stack">Technology Stack:</label>
+                            <input type="text" name="tech_stack" id="tech_stack" required>
+                        </div>
+                                </div>
+                                <button type="submit">Create Project</button>
+                                <button type="button" id="cancel-btn">Cancel</button>
+                            </form>
+                        </div>
 
             <!-- Display messages -->
             <?php if (!empty($messages)): ?>
@@ -317,20 +325,30 @@ $conn->close();
                 <div class="form-container">
                     <h2>Edit Project</h2>
                     <form action="stud_projects.php" method="POST">
-                        <input type="hidden" name="project_id" value="<?php echo $edit_project['id']; ?>" />
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="project_title">Project Title:</label>
-                                <input type="text" name="project_title" id="project_title" value="<?php echo $edit_project['project_title']; ?>" required />
+                                <input type="text" name="project_title" id="project_title" required />
                             </div>
                             <div class="form-group">
                                 <label for="project_description">Project Description:</label>
-                                <input type="text" name="project_description" id="project_description" value="<?php echo $edit_project['project_description']; ?>" required />
+                                <input type="text" name="project_description" id="project_description" required />
                             </div>
                         </div>
-                        <button type="submit" name="update_project">Update Project</button>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="team_members">Team Members:</label>
+                                <input type="text" name="team_members" id="team_members" placeholder="Enter team members, separated by commas" />
+                            </div>
+                            <div class="form-group">
+                                <label for="tech_stack">Technology Stack:</label>
+                                <input type="text" name="tech_stack" id="tech_stack" placeholder="e.g., PHP, JavaScript, MySQL" />
+                            </div>
+                        </div>
+                        <button type="submit">Create Project</button>
                         <button type="button" id="cancel-btn">Cancel</button>
                     </form>
+
                 </div>
             <?php endif; ?>
         </div>

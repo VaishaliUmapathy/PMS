@@ -123,8 +123,16 @@
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="stud_projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="stud_mentors.php"><i class="fas fa-project-diagram"></i>Mentors</a></li>
-            <li><a href="stud_submission.php"><i class="fas fa-blog"></i>Submission</a></li>
+
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Submission</a>
+                <div class="dropdown-container">
+                    <a href="add_sub.php"><i class="fas fa-user-plus"></i> Add Submission</a>
+                    <a href="list_sub.php"><i class="fas fa-list"></i> List Submission</a>
+                </div>
+            </li>
             <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
         </ul>
     </div>
 
@@ -236,6 +244,17 @@
         xhr.send(formData);
     }
 </script>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+        
+        dropdownBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const dropdownContent = this.nextElementSibling;
+                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    });
+</script>
 </body>
 </html>
