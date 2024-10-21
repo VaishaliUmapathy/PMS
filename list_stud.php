@@ -3,13 +3,8 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-<<<<<<< HEAD
 //$dbname = "project_management_db"; 
 $dbname = "teams_management"; 
-=======
-
-$dbname = 'teams_management';
->>>>>>> c18bbe4efabbb4103e1c0706a2f2d2912b446159
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {

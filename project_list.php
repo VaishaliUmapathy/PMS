@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 <?php include 'db_connection.php';
             //include 'db.php'; ?>
-=======
-<?php include'db.php' ?>
->>>>>>> c18bbe4efabbb4103e1c0706a2f2d2912b446159
 <div class="col-lg-12">
 	<div class="card card-outline card-success">
 		<div class="card-header">

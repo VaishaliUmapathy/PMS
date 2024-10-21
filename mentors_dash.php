@@ -159,7 +159,7 @@
                     <a href="list_stud.php"><i class="fas fa-list"></i> List Students</a>
                 </div>
             </li>
-            <li><a href="projects.html"><i class="fas fa-address-card"></i>Projects</a></li>
+            <li><a href="project_list.php"><i class="fas fa-address-card"></i>Projects</a></li>
             <li><a href="submission.html"><i class="fas fa-blog"></i>Submission</a></li>
             <li><a href="viewteams.php"><i class="fas fa-address-book"></i>Teams</a></li>
             <li><a href="cal.html"><i class="fas fa-calendar-alt"></i>Schedule</a></li>
