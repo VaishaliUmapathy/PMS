@@ -6,17 +6,13 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Student') {
 }
 
 // Retrieve user data from session
-if (isset($_SESSION['user'])) {
-    $name = $_SESSION['name'];
-$roll_number = $_SESSION['roll_number'];
-    $user = $_SESSION['user']; // Fetch the user data from session
-} else {
-    // Handle the case where user data is not set
-    $user = null; // or you can redirect to signin.php
-}
+$roll_number = $_SESSION['roll_number'] ?? 'N/A'; // Default to 'N/A' if not set
 
 // Safely retrieve dashboard data
-$dashboard_data = isset($_SESSION['dashboard_data']) ? $_SESSION['dashboard_data'] : null;
+$dashboard_data = $_SESSION['dashboard_data'] ?? null;
+
+// Retrieve user profile image if exists
+$profile_image = $_SESSION['profile_image'] ?? 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'; // Default image
 ?>
 
 <!DOCTYPE html>
@@ -34,35 +30,71 @@ $dashboard_data = isset($_SESSION['dashboard_data']) ? $_SESSION['dashboard_data
     <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js'></script>
     <style>
-        .main-content{
-            margin-top:100px;
+        body {
+            background-color: #efefef;
+        }
+        .main-content {
+            margin-top: 100px;
             margin-left: 100px;
         }
-        .abstract{
+        .abstract {
             height: 200px;
             width: 700px;
             margin-left: 250px;
-           
         }
-        .abstract h2{
+        .abstract h2 {
             text-align: justify;
             font-size: 32px;
             font-weight: 600;
         }
-        .h2-tag{
+        .h2-tag {
             text-transform: uppercase;
             margin-left: 100px;
         }
-        
+        .circle {
+    position: relative; /* Allow positioning of the camera icon relative to the profile picture */
+    display: inline-block; /* Ensure the circle is sized correctly */
+}
+
+.profile-pic {
+    width: 128px; /* Adjusted size */
+    height: 128px; /* Adjusted size */
+    border-radius: 50%; /* Makes it round */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Optional border */
+    display: inline-block;
+    margin: 20px auto; /* Centering the profile picture */
+}
+
+.p-image {
+    position: absolute; /* Absolute positioning to overlap the profile image */
+    top: 80px; /* Adjust this value to position above the profile image */
+    right: 10px; /* Position slightly to the right */
+    color: #666666;
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.upload-button {
+    font-size: 1.2em;
+}
+        .upload-button:hover {
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+            color: #999;
+        }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sidebar">
-        <img src="assets/img/girlprofile.png" alt="" width="100px"/>
-        <h2 class="profile-name"><?php echo htmlspecialchars($user['name'] ?? 'Guest'); ?></h2> <!-- Default to 'Guest' if not set -->
-        <h2 class="profile-roll"><?php echo htmlspecialchars($user['roll_number'] ?? 'N/A'); ?></h2> <!-- Default to 'N/A' if not set -->
+    <div class="circle">
+        <img class="profile-pic" src="<?php echo htmlspecialchars($profile_image); ?>">
+        <div class="p-image">
+            <i class="fa fa-camera upload-button"></i>
+            <input class="file-upload" type="file" accept="image/*"/>
+        </div>
+    </div>
+
+        <h2 class="profile-roll"><?php echo htmlspecialchars($roll_number); ?></h2>
         <ul>
             <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
@@ -154,16 +186,28 @@ $dashboard_data = isset($_SESSION['dashboard_data']) ? $_SESSION['dashboard_data
 
 <script src="assets/js/calendar.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
-        
-        dropdownBtns.forEach(btn => {
-            btn.addEventListener('click', function () {
-                const dropdownContent = this.nextElementSibling;
-                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-            });
-        });
+$(document).ready(function() {
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.profile-pic').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(".file-upload").on('change', function(){
+        readURL(this);
     });
+
+    $(".upload-button").on('click', function() {
+       $(".file-upload").click();
+    });
+});
 </script>
+
 </body>
 </html>

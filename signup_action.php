@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Database connection settings
 $host = 'localhost'; // Database host
 //$db = 'project_management_db';
@@ -14,18 +16,20 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Check if form is submitted
-// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_type = $_POST['user_type'];
     
-    // Check if the user type is student or staff/mentor etc.
+    // Check if the user type is student or staff/mentor
     if ($user_type === 'student') {
-        $identifier = $_POST['roll_number']; // Use roll_number for students
+        $identifier = $_POST['roll_number']; // For students, use roll_number
+        $identifier_column = 'roll_number';
+        $table_name = 'students';
     } else {
-        $identifier = $_POST['username']; // Use username for staff/mentors/etc.
+        $identifier = $_POST['username']; // For staff/mentors, use username (email)
+        $identifier_column = 'email';
+        $table_name = 'staff';
     }
-    
+
     $password = $_POST['password'];
 
     // Validate input
@@ -34,39 +38,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Hash the password for security
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Prepare a SQL statement to retrieve the user record securely
+    $stmt = $conn->prepare("SELECT * FROM $table_name WHERE $identifier_column = ?");
+    $stmt->bind_param("s", $identifier);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Determine the table name and identifier column based on user type
-    $table_name = '';
-    $identifier_column = '';
+    if ($result->num_rows > 0) {
+        // Fetch user data
+        $user = $result->fetch_assoc();
 
-    if ($user_type === 'student') {
-        $table_name = 'students';
-        $identifier_column = 'roll_number'; // Use roll_number for students
-    } elseif ($user_type === 'mentor' || $user_type === 'hod' || $user_type === 'principal' || $user_type === 'ao') {
-        $table_name = 'staff';
-        $identifier_column = 'email'; // Use email for staff
+        // Verify the password
+        if (password_verify($password, $user['password'])) {
+            // Set session variables
+            $_SESSION['user_id'] = $user['id']; // Assuming 'id' is the primary key
+            $_SESSION['role'] = $user_type;
+            $_SESSION['user'] = $user;
+            $_SESSION['name'] = $user['name'] ?? $identifier; // Set the name or identifier
+            $_SESSION['roll_number'] = $user['roll_number'] ?? ''; // Only for students
+
+            // Redirect to the appropriate dashboard
+            if ($user_type === 'student') {
+                header("Location: stud_dash.php");
+            } else {
+                header("Location: staff_dash.php");
+            }
+            exit();
+        } else {
+            echo "Incorrect password.";
+        }
     } else {
-        echo "Invalid user type.";
-        exit;
-    }
-
-    // Prepare SQL statement to prevent SQL injection
-    $stmt = $conn->prepare("INSERT INTO $table_name ($identifier_column, password) VALUES (?, ?)");
-    $stmt->bind_param("ss", $identifier, $hashed_password);
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        // Display a success message
-        echo "<script>alert('Registration successful! Redirecting to Sign In page...');</script>";
-        
-        // Redirect to the sign-in page after 3 seconds
-        echo "<script>setTimeout(function() {
-            window.location.href = 'signin.php';
-        }, 1000);</script>";
-    } else {
-        echo "Error: " . $stmt->error;
+        echo "No user found with the given identifier.";
     }
 
     // Close the statement and connection
@@ -75,5 +77,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Close the database connection
 $conn->close();
-
 ?>
