@@ -139,30 +139,39 @@
 
 <section class="main-content">
     <div class="container">
-        <?php
-        // Database connection
-        $conn = new mysqli("localhost", "root", "", "teams_management");//project_management_db;
+       <?php
+// Database connection
+$conn = new mysqli("localhost", "root", "", "teams_management");
 
-        // Check if the connection was successful
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-        // Check if the 'id' parameter is set in the URL
-        if (isset($_GET['id'])) {
-            $project_id = $_GET['id'];
+// Check if the 'id' parameter is set in the URL
+if (isset($_GET['id'])) {
+    $project_id = $_GET['id'];
 
-            // Use prepared statements for safety
-            $stmt = $conn->prepare("SELECT * FROM student_projects WHERE id = ?");
-            $stmt->bind_param("i", $project_id); // "i" indicates the type is integer
-            $stmt->execute();
-            $result = $stmt->get_result();
+    // Use prepared statements for safety
+    $stmt = $conn->prepare("SELECT * FROM student_projects WHERE id = ?");
+    $stmt->bind_param("i", $project_id); // "i" indicates the type is integer
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-            // Check if any project is found
-            if ($result->num_rows > 0) {
-                // Fetch the project data
-                $project = $result->fetch_assoc();
-        ?>
+    // Check if any project is found
+    if ($result->num_rows > 0) {
+        $project = $result->fetch_assoc();
+        // Render project details here...
+    } else {
+        echo "<p>Project not found.</p>";
+    }
+    $stmt->close();
+} else {
+    echo "<p>No project ID provided.</p>";
+}
+
+$conn->close();
+?>
+
                 <div class="project-card">
                     <h2 class="project-title"><em>Project Title:</em> <?php echo htmlspecialchars($project['project_title']); ?></h2>
                     <p class="team-name">Team Name: <?php echo htmlspecialchars($project['team_name']); ?></p>
@@ -177,21 +186,7 @@
                         <p><strong>Additional Details:</strong> <?php echo htmlspecialchars($project['additional_details']); ?></p>
                     </div>
                 </div>
-        <?php
-            } else {
-                // If no project is found
-                echo "<p>Project not found.</p>";
-            }
-            // Close the statement
-            $stmt->close();
-        } else {
-            // If no ID is passed in the URL
-            echo "<p>No project ID provided.</p>";
-        }
-
-        // Close the database connection
-        $conn->close();
-        ?>
+        
     </div>
 </section>
 
