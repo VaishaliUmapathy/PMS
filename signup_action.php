@@ -1,10 +1,7 @@
 <?php
 // Database connection settings
 $host = 'localhost'; // Database host
-<<<<<<< HEAD
 //$db = 'project_management_db';
-=======
->>>>>>> c18bbe4efabbb4103e1c0706a2f2d2912b446159
 $db = 'teams_management'; // Database name
 $user = 'root'; // Database username
 $pass = ''; // Database password
