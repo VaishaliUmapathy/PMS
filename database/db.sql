@@ -134,3 +134,27 @@ CREATE TABLE IF NOT EXISTS attendance (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (roll_number) REFERENCES student_details(roll_number) ON DELETE CASCADE
 );
+
+CREATE TABLE student_projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    project_title VARCHAR(255) NOT NULL,
+    project_description TEXT,
+    submission_date DATE,
+    status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
+    mentor_comments TEXT,
+    files VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    team_name VARCHAR(255),
+    team_members TEXT
+);
+
+CREATE TABLE team_members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    team_id INT NOT NULL,
+    member_name VARCHAR(255) NOT NULL,
+    roll_no VARCHAR(50) NOT NULL,
+    member_role VARCHAR(100),
+    member_email VARCHAR(255),
+    member_phone VARCHAR(15)
+);

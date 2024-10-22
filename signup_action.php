@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($user_type === 'student') {
                 header("Location: stud_dash.php");
             } else {
-                header("Location: staff_dash.php");
+                header("Location: mentor_dash.php");
             }
             exit();
         } else {

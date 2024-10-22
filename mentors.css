@@ -21,10 +21,7 @@ body {
 }
 .sidebar ul {
     list-style-type: none; /* Remove bullet points */
-    padding: 0;
-}
-.sidebar ul li {
-    margin: 15px 0; /* Space between menu items */
+   
 }
 .sidebar ul li a {
     color: white; /* Menu item color */
