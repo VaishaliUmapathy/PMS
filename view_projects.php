@@ -239,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic'])) {
                 </div>
             </div>
             <h2 class="profile-roll"><?php echo htmlspecialchars($roll_number); ?></h2>
-        <ul>
+            <ul>
             <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="stud_projects.php"><i class="fas fa-address-card"></i>Projects</a></li>

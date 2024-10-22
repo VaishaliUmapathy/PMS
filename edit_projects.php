@@ -261,13 +261,21 @@ $conn->close();
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         table, th, td {
             border: 1px solid #ccc;
         }
+        th {
+    background-color: #f2f2f2; /* Light background for headers */
+}
         th, td {
             padding: 10px;
             text-align: left;
+        }
+        h2{
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
         .form-container input[type="text"], .form-container textarea {
             width: 100%;
@@ -341,7 +349,7 @@ $conn->close();
                 </div>
             </div>
             <h2 class="profile-roll"><?php echo htmlspecialchars($roll_number); ?></h2>
-        <ul>
+            <ul>
             <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
             <li><a href="stud_projects.php"><i class="fas fa-address-card"></i>Projects</a></li>
@@ -350,14 +358,13 @@ $conn->close();
             <li class="dropdown">
                 <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Submission</a>
                 <div class="dropdown-container">
-                    <a href="add_sub.php"><i class="fas fa-user-plus"></i> Add Submission</a>
-                    <a href="list_sub.php"><i class="fas fa-list"></i> List Submission</a>
+                    <a href="stud_submission.php"><i class="fas fa-user-plus"></i> Add Submission</a>
+                    <a href="list_subission.php"><i class="fas fa-list"></i> List Submission</a>
                 </div>
             </li>
-
-            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
+            <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
         </ul>
-
     </div>
     <div class="main_header">
         <div class="header">

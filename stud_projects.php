@@ -1,6 +1,9 @@
 <?php
 session_start();
-
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Student') {
+    header("Location: signin.php");
+    exit();
+}
 
 // Retrieve user data from session
 $roll_number = $_SESSION['roll_number'] ?? 'N/A'; // Default to 'N/A' if not set
@@ -60,29 +63,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic'])) {
 }
 
 ?>
+
 <?php
 include 'db_connection.php';  // Include database connection
 
+$messages = [];
 
+// Handle POST request to create a new project
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $team_name = $_POST['team_name'];
-    $members = $_POST['members'];
-    $tech_stack = $_POST['tech_stack'];
-    $student_id = $_SESSION['student_id']; // Assuming you are storing student ID in session
-    
-    // Prepare SQL statement to insert the project data into the database
-    $query = "INSERT INTO projects (student_id, title, description, team_name, members, tech_stack) 
-              VALUES ('$student_id', '$title', '$description', '$team_name', '$members', '$tech_stack')";
-    
-    if (mysqli_query($conn, $query)) {
-        $success_message = "Project created successfully!";
+    $data = $_POST;  // Get POST data directly from the form
+
+    // Validate input fields
+    if (empty($data['project_title']) || empty($data['project_description'])) {
+        $messages[] = "Project title and description are required.";
     } else {
-        $error_message = "Error: " . mysqli_error($conn);
+        $student_id = 1; // Replace with actual student ID based on your application's logic
+        $project_title = $conn->real_escape_string($data['project_title']);
+        $project_description = $conn->real_escape_string($data['project_description']);
+        $submission_date = date('Y-m-d'); // Set to today's date or use an input field
+        $status = 'Pending'; // Default status; you can change this as needed
+        $mentor_comments = ''; // Initial value
+        $files = ''; // Initial value; handle file uploads if necessary
+
+        // Insert project into the 'student_projects' table
+        $sql = "INSERT INTO student_projects (student_id, project_title, project_description, submission_date, status, mentor_comments, files) 
+                VALUES ('$student_id', '$project_title', '$project_description', '$submission_date', '$status', '$mentor_comments', '$files')";
+
+        if ($conn->query($sql) === TRUE) {
+            // Success message
+            $messages[] = "Project '$project_title' created successfully!";
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            $messages[] = "Failed to create project: " . $conn->error;
+        }
     }
 }
-
 
 // Fetch all projects
 $sql = "SELECT * FROM student_projects";
@@ -128,11 +144,12 @@ if (isset($_POST['update_project'])) {
 
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-    <title>Student project Dashboard</title>
+    <meta charset="UTF-8">
+    <title>Student Project Dashboard</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="mentors.css">
@@ -164,16 +181,15 @@ $conn->close();
             color: #594f8d; 
         }
         
-        .header-menu > h1 {
-            text-transform: capitalize;
-            font-size: 17px;
-            margin-bottom: 10px;
-            text-align: center;
+        .header > h1 {
+            text-transform: uppercase;
+            font-size: 30px;
         }
-        .main-content{
-            margin-top:100px;
-            
+
+        .main-content {
+            margin-top: 100px;   
         }
+
         .form-container {
             background-color: #f7f7f7; /* Light gray background */
             padding: 20px;
@@ -184,11 +200,9 @@ $conn->close();
 
         /* Form row styles */
         .form-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr; /* Label takes 1 part, input takes 2 parts */
-            grid-gap: 15px;
-            align-items: center;
-            margin-bottom: 15px;
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 1rem; 
         }
 
         .form-group {
@@ -198,7 +212,6 @@ $conn->close();
         
         .form-group label {
             font-weight: bold;
-            font-size: 15px;
             margin-bottom: 5px;
             display: block;
             color: #594f8d; /* Label color matching the theme */
@@ -207,7 +220,7 @@ $conn->close();
         .form-group:last-child {
             margin-right: 0; 
         }
-
+        
         /* Input and select styles */
         input[type="text"],
         input[type="email"],
@@ -220,11 +233,7 @@ $conn->close();
             border-radius: 5px;
             box-sizing: border-box;
         }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
+
         /* Button Styles */
         button {
             background-color: #594f8d;
@@ -273,67 +282,66 @@ $conn->close();
             font-weight: bold;
             margin-bottom: 10px;
         }   
+
         .project-buttons {
             display: flex;
             justify-content: space-between;
             margin-top: 10px; /* Space above buttons */
         }
-        .project-buttons>a{
-            text-decoration: none;
-            border: 2px solid #594f8d;
-            background-color: #594f8d;
-            border-radius: 5px;
-            padding:7px;
-
-            color:#f7f7f7;
+                .profile-roll {
+            margin-top: 20px; /* Add some space between profile picture and roll number */
         }
-        .profile-roll {
-    margin-top: 20px; /* Add some space between profile picture and roll number */
-}
+        .project-buttons>a{
+            background-color: #594f8d;
+            padding:5px;
+            border: 2px solid #594f8d;
+            color:#ccc;
+            border-radius: 5px;
+        }
 
-.circle {
-    position: relative;
-    display: flex; /* Flexbox to center the circle */
-    justify-content: center; /* Horizontally center the circle */
-    align-items: center; /* Vertically center the circle */
-    margin-top: 20px; /* Adjust to move the circle higher or lower */
-    cursor: pointer; /* Make the whole circle clickable */
-}
+        .circle {
+            position: relative;
+            display: flex; /* Flexbox to center the circle */
+            justify-content: center; /* Horizontally center the circle */
+            align-items: center; /* Vertically center the circle */
+            margin-top: 20px; /* Adjust to move the circle higher or lower */
+            cursor: pointer; /* Make the whole circle clickable */
+        }
 
-.profile-pic {
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    display: inline-block;
-}
+        .profile-pic {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: inline-block;
+        }
 
-.p-image {
-    position: absolute;
-    bottom: 5px; /* Move to the bottom of the circle */
-    right: 28%; /* Position to the right */
-    color: #666666;
-}
+        .p-image {
+            position: absolute;
+            bottom: 5px; /* Move to the bottom of the circle */
+            right: 28%; /* Position to the right */
+            color: #666666;
+        }
 
-.upload-button {
-    font-size: 1.2em;
-}
+        .upload-button {
+            font-size: 1.2em;
+        }
 
-.upload-button:hover {
-    transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
-    color: #999;
-}
+        .upload-button:hover {
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+            color: #999;
+        }
 
-.file-upload {
-    display: none; /* Hide the file input */
-}
-
+        .file-upload {
+            display: none; /* Hide the file input */
+        }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-            <div class="sidebar"><div class="circle" onclick="document.querySelector('.file-upload').click()">
+    <div class="sidebar">
+    <div class="circle" onclick="document.querySelector('.file-upload').click()">
                 <img class="profile-pic" src="<?php echo htmlspecialchars($profile_image); ?>" alt="Profile Picture">
                 <div class="p-image">
                     <i class="fa fa-camera upload-button"></i>
@@ -343,7 +351,6 @@ $conn->close();
                 </div>
             </div>
             <h2 class="profile-roll"><?php echo htmlspecialchars($roll_number); ?></h2>
-
         <ul>
             <li><a href="stud_dash.php"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="stud_profiles.php"><i class="fas fa-user"></i>Profile</a></li>
@@ -353,18 +360,18 @@ $conn->close();
             <li class="dropdown">
                 <a href="javascript:void(0)" class="dropdown-btn"><i class="fas fa-user"></i> Submission</a>
                 <div class="dropdown-container">
-                    <a href="stud_submission.php"><i class="fas fa-user-plus"></i> Add Submission</a>
-                    <a href="list_subission.php"><i class="fas fa-list"></i> List Submission</a>
+                    <a href="add_sub.php"><i class="fas fa-user-plus"></i> Add Submission</a>
+                    <a href="list_sub.php"><i class="fas fa-list"></i> List Submission</a>
                 </div>
             </li>
-            <li><a href="create_teams.php"><i class="fas fa-address-book"></i>Teams</a></li>
-            <li><a href="stud_editor.php"><i class="fas fa-address-book"></i>Editor</a></li>
+            <li><a href="stud_editor.php"><i class="fas fa-project-diagram"></i>Editor</a></li>
+
+
         </ul>
     </div>
-
     <div class="main_header">
         <div class="header">
-            <h1>Project Creation</h1>
+            <h1>Project Dashboard</h1>
             <div class="header_icons">
                 <div class="search">
                     <input type="text" placeholder="Search..." />
@@ -378,11 +385,9 @@ $conn->close();
     </div>
 </div>
 
-<section class="main-content">
+    <section class="main-content">
         <div class="container">
-            <div class="header-menu">
-                <h1>Enter your Project Details</h1>
-            </div>
+            
 
             <div class="form-container" id="form-container">
                 
@@ -396,25 +401,11 @@ $conn->close();
                             <label for="project_description">Project Description:</label>
                             <input type="text" name="project_description" id="project_description" required />
                         </div>
-                        <div class="form-group">
-                            <label for="team_name">Team Name:</label>
-                            <input type="text" name="team_name" id="team_name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="members">Team Members (Comma Separated):</label>
-                            <input type="text" name="members" id="members" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="tech_stack">Technology Stack:</label>
-                            <input type="text" name="tech_stack" id="tech_stack" required>
-                        </div>
-                                </div>
-                                <button type="submit">Create Project</button>
-                                <button type="button" id="cancel-btn">Cancel</button>
-                            </form>
-                        </div>
+                    </div>
+                    <button type="submit">Create Project</button>
+                    <button type="button" id="cancel-btn">Cancel</button>
+                </form>
+            </div>
 
             <!-- Display messages -->
             <?php if (!empty($messages)): ?>
@@ -442,42 +433,11 @@ $conn->close();
                 <?php endforeach; ?>
             </div>
 
-            <!-- Edit Project Form -->
-            <?php if (isset($edit_project)): ?>
-                <div class="form-container">
-                    <h2>Edit Project</h2>
-                    <form action="stud_projects.php" method="POST">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="project_title">Project Title:</label>
-                                <input type="text" name="project_title" id="project_title" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="project_description">Project Description:</label>
-                                <input type="text" name="project_description" id="project_description" required />
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="team_members">Team Members:</label>
-                                <input type="text" name="team_members" id="team_members" placeholder="Enter team members, separated by commas" />
-                            </div>
-                            <div class="form-group">
-                                <label for="tech_stack">Technology Stack:</label>
-                                <input type="text" name="tech_stack" id="tech_stack" placeholder="e.g., PHP, JavaScript, MySQL" />
-                            </div>
-                        </div>
-                        <button type="submit">Create Project</button>
-                        <button type="button" id="cancel-btn">Cancel</button>
-                    </form>
-
-                </div>
-            <?php endif; ?>
+            
         </div>
     </section>
 
-
-<script>
+    <script>
         document.getElementById('create-project-btn').onclick = function() {
             document.getElementById('form-container').classList.toggle('hidden');
         }
@@ -486,7 +446,7 @@ $conn->close();
             document.getElementById('form-container').classList.add('hidden');
         }
     </script>
-<script>
+    <script>
     document.addEventListener("DOMContentLoaded", function () {
         const dropdownBtns = document.querySelectorAll('.dropdown-btn');
         
