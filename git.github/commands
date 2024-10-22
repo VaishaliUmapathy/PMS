@@ -1,0 +1,18 @@
+Create a new branch called PMS locally:
+#git checkout -b PMS
+
+#Clone the repository if they haven’t:
+git fetch origin PMS
+
+#Fetch the new branch:
+git checkout PMS
+
+#Switch to the PMS branch:
+git checkout PMS
+
+#After making changes, they can push to the PMS branch:
+git add .
+git commit -m "Description of their changes"
+git push origin PMS
+
+
